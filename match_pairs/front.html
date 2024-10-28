@@ -60,7 +60,7 @@
     function createHorizontalWord(word) {
       const wordElement = document.createElement('span');
       wordElement.innerHTML = word;
-      wordElement.className = 'horizontal-word';
+      wordElement.className = 'horizontal-word tappable';
       wordElement.draggable = true;
       wordElement.addEventListener('dragstart', drag);
       wordElement.addEventListener('click', () => matchWord(word, wordElement));

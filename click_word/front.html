@@ -54,7 +54,7 @@
 
     function updateWordBank() {
       words.sort(() => Math.random() - 0.5);
-      wordsContainer.innerHTML = words.map(word => `<span class="word">${word}</span>`).join('');
+      wordsContainer.innerHTML = words.map(word => `<span class="word tappable">${word}</span>`).join('');
     }
 
     function handleWordClick(event) {
