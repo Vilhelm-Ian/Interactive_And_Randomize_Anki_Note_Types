@@ -1,0 +1,26 @@
+{{cloze::Text}}<br>
+{{Back Extra}}
+
+<script>
+function shuffleElements(...selectors) {
+  const isFront = document.getElementById("back") == null
+  const parent = document.querySelector(selectors[0]).parentElement;
+  const elements = selectors.flatMap(selector => 
+    Array.from(parent.querySelectorAll(selector))
+  );
+  
+  // Create a copy of elements
+  const elementsCopy = elements.map(el => el.cloneNode(true));
+  const indexes = JSON.parse(localStorage.getItem("indexes"))
+  indexes.forEach(([i,j]) => {[elementsCopy[i], elementsCopy[j]] = [elementsCopy[j], elementsCopy[i]]})
+  
+  // Replace original elements with shuffled copies
+  console.log(elementsCopy)
+  elementsCopy.forEach((shuffledEl, index) => {
+    parent.replaceChild(shuffledEl, elements[index]);
+  });
+}
+shuffleElements(".cloze",".cloze-inactive");
+//
+
+</script>
