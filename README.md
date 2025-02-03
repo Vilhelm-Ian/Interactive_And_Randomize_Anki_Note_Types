@@ -18,3 +18,4 @@ This cloze-style card provides possible choices to complete sentences, making gr
 # Other peoples note types
 - [Puzzle Sentences](https://ankiweb.net/shared/info/1522392024)
 - [Interactive card template from cjdduarte](https://forums.ankiweb.net/t/interactive-flashcard-template-with-drag-and-drop-feedback/48977)
+- [Anki Template](https://github.com/ikkz/anki-template#ikkz-templates)
