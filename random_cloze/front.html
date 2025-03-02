@@ -6,16 +6,9 @@
 
 <div class="prettify-flashcard">
 
-<div class="prettify-deck">{{Subdeck}}</div> 
+  <div class="prettify-deck">{{Subdeck}}</div> 
 
 <div class="prettify-divider prettify-divider--answer"></div>
-
-<div id="warning" class="warning">
-  <button class="close" id="close">X</button>
-  <h1>There is a new version of the note type</h1>
-  <div class="center-text"><a href="https://ankiweb.net/shared/info/171015247">Click Here To download it</a>
-  <p>If you don't want to be informed about updates click here: <input id="check" type="checkbox"></input></p>
-</div></div>
 
   <div class="prettify-field prettify-field--front">
 
@@ -26,13 +19,16 @@
 
 </div>
 
+  {{#Back Extra}}
+<div class="prettify-divider prettify-divider--answer"></div>
+
+<div class="center-text"><div class="prettify-field prettify-field--back">{{Back Extra}}</div></div>{{/Back Extra}}
+
 <div class="row">
-  {{#Tags}}
+   {{#Tags}}
   <div class="prettify-tags">{{clickable:Tags}}</div>
   {{/Tags}}
-
-<div class="reportIconContainer"><a href="https://github.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/issues/new"><svg
-<div class="reportIconContainer"><a href="https://github.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/issues/new"><svg 
+  <div class="reportIconContainer"><a href="https://github.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/issues/new"><svg 
           width="20px"
           height="20px"
           fill="#4B5563" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 489.7 489.7" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> 
@@ -75,40 +71,10 @@
   })
   deckEl.innerHTML = html.join('&nbsp;/&nbsp;')
 </script>
-
 <script>
   (() => {
-    const VERSION = 1.0
-    checkVersion()
-    document.getElementById("check").addEventListener("click", () => noMoreUpdates())
-    document.getElementById("close").addEventListener("click", () => close())
-
-
-
-    let clozes = document.getElementById("hidden").innerHTML.split("|")
-    let rng = Math.floor(Math.random() * clozes.length)
-    localStorage.setItem("rng", rng)
+    const clozes = document.getElementById("hidden").innerHTML.split("|")
+    const rng = localStorage.getItem("rng")
     document.getElementById("target").innerHTML = clozes[rng]
-
-    async function checkVersion() {
-      let updates = localStorage.getItem("updates")
-      let close = sessionStorage.getItem("close")
-      if (updates || close) return
-      let res = await fetch("https://raw.githubusercontent.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/refs/heads/main/VERSION")
-      let data = await res.text()
-      if (VERSION < data) document.getElementById("warning").style.display = "block"
-    }
-
-    function close() {
-      document.getElementById("warning").style.display = "none"
-      sessionStorage.setItem("close", true)
-    }
-
-
-    function noMoreUpdates() {
-      document.getElementById("warning").style.display = "none"
-      localStorage.setItem("updates", true)
-    }
-
   })()
-</script>
+   </script>
