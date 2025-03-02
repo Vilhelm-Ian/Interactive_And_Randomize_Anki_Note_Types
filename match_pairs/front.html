@@ -14,12 +14,14 @@
 <div style="display:none;">[sound:_1-second-and-500-milliseconds-of-silence.mp3]</div>
 <p id="keys" style="display:none;">{{First List}}</p>
 <p id="values" style="display:none;">{{Second List}}</p>
+<p id="explanationsList" style="display:none;">{{Explanations}}</p>
 
 <div class="game-container">
-  <div id="wordList" class="word-lists">
-  </div>
+  <ol id="wordList" class="word-lists">
+  </ol>
   <hr />
   <div id="horizontalWords"></div>
+  <div id="explanations"></div>
   <button class="checkButton" id="checkButton">Check</button>
   <div id="result"></div>
 </div>
@@ -53,6 +55,7 @@
       initializeElements() {
         this.elements = {
           wordList: document.getElementById('wordList'),
+          explanations: document.getElementById('explanations'),
           horizontalWords: document.getElementById('horizontalWords'),
           result: document.getElementById('result'),
           checkButton: document.getElementById('checkButton'),
@@ -102,7 +105,7 @@
       }
 
       createWordElement(word, isHorizontal = false) {
-        const element = document.createElement(isHorizontal ? 'span' : 'div');
+        const element = document.createElement(isHorizontal ? 'span' : 'li');
         element.innerHTML = word;
         element.querySelectorAll("img").forEach((img) => {
           img.setAttribute("draggable", "false");
@@ -145,7 +148,32 @@
         this.renderGame();
         this.setupInitialState();
         await this.checkVersion();
+        if(this.isBack) {
+          let explanations = document.getElementById("explanationsList").innerHTML.split("|").filter(exp => exp != "")
+          let indexes = this.shuffledFirstList.map(element => this.firstList.findIndex(ele=> ele==element))
+          let orderedExplanations = []
+          indexes.forEach(index=> orderedExplanations.push(explanations[index]))
+          orderedExplanations.length = explanations.length
+          let orderedList = this.renderOrderedList(orderedExplanations);
+          this.elements.explanations.appendChild(orderedList)
+        }
       }
+    renderOrderedList(items) {
+    if (!Array.isArray(items)) {
+        console.error("Input must be an array of strings.");
+        return;
+    }
+    
+    const ol = document.createElement("ol");
+    
+    items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ol.appendChild(li);
+    });
+    
+    return ol;
+}
 
       renderGame() {
         this.elements.wordList.style['grid-template-rows'] =
