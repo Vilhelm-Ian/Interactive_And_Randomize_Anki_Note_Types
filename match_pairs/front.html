@@ -338,10 +338,13 @@
 
       // Utility methods
       addExtraWords(keys, values) {
-        let extraWords = values.splice(keys.length, keys.length);
-        values.length = keys.length;
+        let extraWords = values.slice(keys.length);
+	    values.length = keys.length
+		console.log({values}) // 7 items
+		console.log({keys}) // 5 items
+		console.log({extraWords}) // empty
 
-        for (let i = 0; i < values.length; i++) {
+        for (let i = 0; i < 2; i++) {
           const extraWordIndex = Math.floor(Math.random() * extraWords.length);
           const extraWord = extraWords[extraWordIndex];
 
