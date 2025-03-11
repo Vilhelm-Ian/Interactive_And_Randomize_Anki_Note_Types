@@ -6,6 +6,10 @@
   background-color: white;
 }
 
+.nightMode .card {
+  color: #ffffffe6;
+  background-color: #2e2f31;
+}
 
 #hidden {
   display: none;
@@ -18,6 +22,14 @@
   max-width: 90%;
 }
 
+.nightMode .warning {
+  border: #ffffffe6 dotted;
+}
+
 .close {
   margin-left: 90%;
+}
+
+.nightMode .close {
+  color: #ffffffe6;
 }

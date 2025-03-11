@@ -74,7 +74,8 @@
 <script>
   (() => {
     const clozes = document.getElementById("hidden").innerHTML.split("|")
-    const rng = localStorage.getItem("rng")
+    const rng = Math.floor(Math.random() * clozes.length)
+    localStorage.setItem("rng", rng)
     document.getElementById("target").innerHTML = clozes[rng]
   })()
    </script>
