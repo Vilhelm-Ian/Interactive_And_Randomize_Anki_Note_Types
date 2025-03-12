@@ -9,6 +9,10 @@
             align-items: center;
             min-height: 100vh;
         }
+        .nightMode body {
+            background-color: #2e2f31;
+            color: #ffffffe6;
+        }
         .game-container {
             max-width: fit-content;
             margin-left: auto;
@@ -20,10 +24,17 @@
             width: 90%;
             max-width: 600px;
         }
+        .nightMode .game-container {
+            background-color: #2e2f31;
+            color: #ffffffe6;
+        }
         h1 {
             color: #58cc02;
             text-align: center;
             margin-bottom: 30px;
+        }
+        .nightMode h1 {
+            color: #a6e3a1;
         }
         #sentence {
             color: black;
@@ -31,6 +42,9 @@
             line-height: 1.6;
             margin-bottom: 30px;
             text-align: center;
+        }
+        .nightMode #sentence {
+            color: #ffffffe6;
         }
         .blank {
             display: inline-block;
@@ -46,8 +60,15 @@
             font-weight: bold;
             color: #1cb0f6;
         }
+        .nightMode .blank {
+            border-color: #ffffff1f;
+            color: #89dceb;
+        }
         .blank:hover {
             background-color: #f7f7f7;
+        }
+        .nightMode .blank:hover {
+            background-color: #ffffff1f;
         }
         #words {
             display: flex;
@@ -66,9 +87,18 @@
             font-weight: bold;
             color: #1cb0f6;
         }
+        .nightMode .word {
+            background-color: #2e2f31;
+            border-color: #89dceb;
+            color: #89dceb;
+        }
         .word:hover {
             background-color: #1cb0f6;
             color: white;
+        }
+        .nightMode .word:hover {
+            background-color: #89dceb;
+            color: #2e2f31;
         }
         #checkButton {
             display: block;
@@ -82,8 +112,15 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
+        .nightMode #checkButton {
+            background-color: #a6e3a1;
+            color: #2e2f31;
+        }
         #checkButton:hover {
             background-color: #47a501;
+        }
+        .nightMode #checkButton:hover {
+            background-color: #94e2d5;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -96,11 +133,21 @@
             color: #58cc02 !important;
             animation: pulse 0.5s ease-in-out;
         }
+        .nightMode .correct {
+            background-color: #a6e3a1 !important;
+            border-color: #a6e3a1 !important;
+            color: #2e2f31 !important;
+        }
         .incorrect {
             background-color: #ffdfe0 !important;
             border-color: #ff4b4b !important;
             color: #ff4b4b !important;
             animation: shake 0.5s ease-in-out;
+        }
+        .nightMode .incorrect {
+            background-color: #f38ba8 !important;
+            border-color: #f38ba8 !important;
+            color: #2e2f31 !important;
         }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -115,7 +162,15 @@
  padding: 10px;
 }
 
+.nightMode .warning {
+  border: #ffffffe6 dotted;
+}
+
 .close {
   margin-left: 90%;
+}
+
+.nightMode .close {
+  color: #ffffffe6;
 }
     </style>

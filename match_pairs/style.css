@@ -12,6 +12,10 @@
       min-height: 100vh;
     }
 
+    .nightMode body {
+      background-color: #2e2f31;
+      color: #ffffffe6;
+    }
 
     img {
       height: 100%;
@@ -35,6 +39,11 @@
       margin-bottom: 5px;
     }
 
+    .nightMode .game-container {
+      background-color: #2e2f31;
+      color: #ffffffe6;
+    }
+
     .word-lists {
       display: grid;
       grid-template-columns: 1fr, 1fr;
@@ -43,6 +52,10 @@
       grid-auto-flow: dense;
       align-items: center;
       column-gap: 4px;
+    }
+
+    .nightMode .word-lists {
+      color: #ffffffe6;
     }
 
     .list {
@@ -61,6 +74,10 @@
       font-size: clamp(5px, 3vw, 24px);
     }
 
+    .nightMode .word {
+      color: #ffffffe6;
+    }
+
     .match-slot {
       grid-column: 2;
       margin: 5px 0;
@@ -77,11 +94,20 @@
       border: 1px dashed #ccc;
     }
 
+    .nightMode .match-slot {
+      border-color: #ffffff1f;
+      color: #ffffffe6;
+    }
+
     #horizontalWords {
       width: min(33vw, 500px);
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
+    }
+
+    .nightMode #horizontalWords {
+      color: #ffffffe6;
     }
 
     .horizontal-word {
@@ -94,8 +120,17 @@
       font-size: 2vw;
     }
 
+    .nightMode .horizontal-word {
+      background-color: #2e2f31;
+      color: #ffffffe6;
+    }
+
     .matched-word {
       background-color: #d4edda;
+    }
+
+    .nightMode .matched-word {
+      background-color: #a6e3a1;
     }
 
     .checkButton {
@@ -110,6 +145,10 @@
       cursor: pointer;
     }
 
+    .nightMode .checkButton {
+      background-color: #a6e3a1;
+      color: #2e2f31;
+    }
 
     .nightMode .checkButton:hover {
       color: white;
@@ -127,6 +166,9 @@
       font-size: clamp(5px, 3vw, 24px);
     }
 
+    .nightMode #result {
+      color: #ffffffe6;
+    }
 
     #secondList {
       text-align: center;
@@ -136,6 +178,9 @@
       background-color: #f0f0f0;
     }
 
+    .nightMode .match-slot:hover {
+      background-color: #ffffff1f;
+    }
 
     .warning {
       display: none;
@@ -151,4 +196,8 @@
 
     .close {
       margin-left: 90%;
+    }
+
+    .nightMode .close {
+      color: #ffffffe6;
     }
