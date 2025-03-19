@@ -37,6 +37,7 @@
 
 <script>
   // Split hierarchical tags
+  (()=>{
   var tagsContainerEl = document.querySelectorAll('.prettify-tags > *')
   if (tagsContainerEl.length > 0) {
     var tags = []
@@ -50,6 +51,7 @@
     })
   } else {
     tagsContainerEl = document.querySelector('.prettify-tags')
+    if(tagsContainerEl == null) return;
     var tags = tagsContainerEl.innerHTML.split(' ').filter(Boolean)
     var html = ''
     tags.forEach((tag) => {
@@ -70,12 +72,11 @@
     html.push("<span class='prettify-subdeck'>" + subDeck + '</span>')
   })
   deckEl.innerHTML = html.join('&nbsp;/&nbsp;')
-</script>
-<script>
+  })();
   (() => {
     const clozes = document.getElementById("hidden").innerHTML.split("|")
-    const rng = Math.floor(Math.random() * clozes.length)
-    localStorage.setItem("rng", rng)
+    const rng = Math.floor(Math.random() * clozes.length);
+    localStorage.setItem("rng", rng);
     document.getElementById("target").innerHTML = clozes[rng]
   })()
    </script>
