@@ -1,0 +1,375 @@
+/* style.css */
+
+/* --- Theme Variables --- */
+:root {
+    /* Light Mode (Default) */
+    --clr-bg: #f4f4f4;
+    --clr-container-bg: #fff;
+    --clr-text-primary: #333;
+    --clr-text-secondary: #555;
+    --clr-border-light: #ddd;
+    --clr-border-medium: #ccc;
+    --clr-border-accent: #7ac0e3;
+    --clr-word-bg: #aedff7;
+    --clr-word-border: var(--clr-border-accent);
+    --clr-word-dragging-bg: var(--clr-border-accent);
+    --clr-column-header-bg: #e0e0e0;
+    --clr-column-bg: #f9f9f9;
+    --clr-drop-zone-hover-bg: #e8f4fd;
+    --clr-drop-zone-hover-border: var(--clr-border-accent);
+    --clr-button-bg: #5cb85c;
+    --clr-button-text: white;
+    --clr-button-hover-bg: #4cae4c;
+    --clr-correct-bg: #dff0d8;
+    --clr-correct-border: var(--clr-button-bg);
+    --clr-incorrect-bg: #f2dede;
+    --clr-incorrect-border: #d9534f;
+    --clr-results-success: green;
+    --clr-results-error: red;
+    --clr-results-info: var(--clr-text-secondary);
+    --clr-button-info-hover-bg: #31b0d5;
+    --clr-button-info-bg: #5bc0de;
+
+    /* Scrollbar colors (optional, but good for theming) */
+    --clr-scrollbar-track: #f1f1f1;
+    --clr-scrollbar-thumb: #c1c1c1;
+    --clr-scrollbar-thumb-hover: #a8a8a8;
+}
+
+body.nightMode {
+    /* Dark Mode */
+    --clr-bg: #2c2c2c;
+    --clr-button-info-bg: #31b0d5;
+    --clr-button-info-hover-bg: #5bc0de;
+    --clr-container-bg: #3a3a3a;
+    --clr-text-primary: #e0e0e0;
+    --clr-text-secondary: #b0b0b0;
+    --clr-border-light: #555;
+    --clr-border-medium: #777;
+    --clr-border-accent: #4a90e2; /* Adjusted blue for dark bg */
+    --clr-word-bg: #3a5f80; /* Darker blue */
+    --clr-word-border: var(--clr-border-accent);
+    --clr-word-dragging-bg: #2a4f70;
+    --clr-column-header-bg: #4f4f4f;
+    --clr-column-bg: #444;
+    --clr-drop-zone-hover-bg: #4a4a5a;
+    --clr-drop-zone-hover-border: var(--clr-border-accent);
+    --clr-button-bg: #4cae4c; /* Keep button colors vibrant */
+    --clr-button-text: white;
+    --clr-button-hover-bg: #5cb85c;
+    --clr-correct-bg: #3a6a3a;
+    --clr-correct-border: var(--clr-button-hover-bg);
+    --clr-incorrect-bg: #7a3a3a;
+    --clr-incorrect-border: #f48a86;
+    --clr-results-success: #77dd77; /* Lighter green */
+    --clr-results-error: #ff6961;  /* Lighter red */
+    --clr-results-info: var(--clr-text-secondary);
+
+    /* Scrollbar colors for dark mode */
+    --clr-scrollbar-track: #444;
+    --clr-scrollbar-thumb: #666;
+    --clr-scrollbar-thumb-hover: #888;
+}
+
+/* --- Base Styles using Variables --- */
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    background-color: var(--clr-bg);
+    color: var(--clr-text-primary); /* Set default text color */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme transition */
+}
+
+h1, h2 {
+    text-align: center;
+    color: var(--clr-text-primary);
+}
+
+.game-container {
+    max-width: 900px;
+    margin: 20px auto;
+    background: var(--clr-container-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+/* Word Bank */
+.word-bank {
+    border: 2px dashed var(--clr-border-medium);
+    padding: 15px;
+    margin-bottom: 20px;
+    min-height: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: flex-start;
+}
+
+.word-bank h2 {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 1em;
+    text-align: left;
+    color: var(--clr-text-secondary);
+}
+
+/* Word Item */
+.word-item {
+    background-color: var(--clr-word-bg);
+    border: 1px solid var(--clr-word-border);
+    color: var(--clr-text-primary); /* Ensure text is readable */
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: grab;
+    text-align: center;
+    user-select: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    width: fit-content;
+    height: fit-content;
+}
+
+.word-item:active {
+    cursor: grabbing;
+}
+
+/* Drag feedback */
+.word-item.dragging {
+    opacity: 0.5;
+    background-color: var(--clr-word-dragging-bg);
+}
+
+/* --- Columns Container (Using Grid) --- */
+.columns-container {
+    /* display: flex; */ /* Replaced with grid */
+    /* justify-content: space-around; */ /* Not needed for grid this way */
+    display: grid;
+    /*
+     * auto-fit: Fit as many columns as possible in the available width.
+     * minmax(240px, 1fr): Each column must be at least 240px wide.
+     *                       If there's extra space, columns expand equally (1fr).
+     *                       Adjust 240px based on desired minimum column width.
+     */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px; /* Space between grid items (columns) */
+    margin-bottom: 20px;
+}
+
+.category-column {
+    /* flex: 1; */ /* Not needed, grid handles sizing */
+    border: 1px solid var(--clr-border-light);
+    background-color: var(--clr-column-bg);
+    border-radius: 5px;
+    /* Keep using flexbox for the *internal* layout of the column (header + dropzone) */
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    /* Ensure columns don't collapse smaller than their content minimum */
+    min-width: 0; /* Prevents grid items from overflowing strangely sometimes */
+}
+
+.column-header {
+    background-color: var(--clr-column-header-bg);
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: capitalize;
+    border-bottom: 1px solid var(--clr-border-light);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: var(--clr-text-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    /* Optional: Prevent header text from breaking too awkwardly */
+    word-break: break-word;
+}
+
+.drop-zone {
+    min-height: 150px;
+    padding: 10px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: row; /* Words flow left-to-right first */
+    flex-wrap: wrap;     /* Then wrap to the next line */
+    gap: 5px;
+    flex-grow: 1;        /* Allows zone to fill space within the column's flex layout */
+    align-content: flex-start; /* Align wrapped lines to the top */
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    /* Scroll handling will be managed by media queries */
+    overflow: hidden;
+}
+
+.drop-zone.drag-over {
+    background-color: var(--clr-drop-zone-hover-bg);
+    border: 2px dashed var(--clr-drop-zone-hover-border);
+    padding: 9px; /* Adjust padding for border change */
+}
+
+.button-controls {
+    display: flex;
+    justify-content: center; /* Center buttons */
+    gap: 15px; /* Space between buttons */
+    margin: 20px 0; /* Vertical margin */
+    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+}
+
+.button-controls button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    cursor: pointer;
+    color: var(--clr-button-text);
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+.button-controls button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* Check button */
+#check-button {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    cursor: pointer;
+    background-color: var(--clr-button-bg);
+    color: var(--clr-button-text);
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+#check-button:hover {
+    background-color: var(--clr-button-hover-bg);
+}
+
+#show-answer-button {
+    background-color: var(--clr-button-info-bg); /* Use info color */
+}
+#show-answer-button:hover:not(:disabled) {
+    background-color: var(--clr-button-info-hover-bg);
+}
+
+#check-button, #show-answer-button {
+    margin: 0; /* Remove auto margins */
+    display: inline-block; /* Needed if removing display:block */
+}
+
+
+/* Validation styles */
+.word-item.correct {
+    background-color: var(--clr-correct-bg);
+    border-color: var(--clr-correct-border);
+}
+
+.word-item.incorrect {
+    background-color: var(--clr-incorrect-bg);
+    border-color: var(--clr-incorrect-border);
+}
+
+#results {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+/* Assign specific result colors */
+#results[style*="color: green;"] { color: var(--clr-results-success) !important; }
+#results[style*="color: red;"] { color: var(--clr-results-error) !important; }
+#results[style*="color: rgb(85, 85, 85);"] /* Match the specific grey color used in JS */
+{ color: var(--clr-results-info) !important; }
+
+
+/* --- Responsive Styles --- */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .columns-container {
+        /* The grid layout naturally handles stacking now, no need for flex-direction: column */
+        gap: 15px; /* Can reduce gap slightly on smaller screens */
+    }
+
+    /* No width change needed for .category-column as grid handles it */
+
+    .drop-zone {
+        min-height: 100px; /* Can be smaller in vertical layout */
+        max-height: 250px;  /* Limit height */
+        overflow-y: auto;   /* Enable vertical scroll if content exceeds max-height */
+        flex-wrap: wrap;    /* Keep wrap for narrow screens */
+        align-content: flex-start; /* Align wrapped lines to the top */
+    }
+
+    .word-bank {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .word-item {
+         padding: 6px 10px;
+         font-size: 0.9em;
+    }
+
+    #check-button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+    .button-controls button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+     h1 {
+        font-size: 1.3em;
+    }
+     .game-container {
+        padding: 10px;
+     }
+     .drop-zone {
+        max-height: 200px; /* Maybe even smaller on very small screens */
+     }
+     /* Adjust minimum column width for very small screens if needed */
+     /* Example:
+     .columns-container {
+         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+     }
+     */
+}
+
+
+/* --- Optional: Themed Scrollbar Styling (for Webkit browsers like Chrome/Safari/Edge) --- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--clr-scrollbar-track);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--clr-scrollbar-thumb);
+  border-radius: 4px;
+  border: 2px solid var(--clr-scrollbar-track); /* Creates padding around thumb */
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--clr-scrollbar-thumb-hover);
+}
+/* Add styles for Firefox if needed (scrollbar-width, scrollbar-color) */
+/* Note: Firefox scrollbar styling is less customizable */
+* { /* Apply basic FF scrollbar colors */
+    scrollbar-width: thin;
+    scrollbar-color: var(--clr-scrollbar-thumb) var(--clr-scrollbar-track);
+}
