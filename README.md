@@ -19,7 +19,17 @@ This cloze-style card provides possible choices to complete sentences, making gr
 
 # Shuffle Cloze
 
-This cloze will show you cards with cloze selections randomly swapped. For example, "Symptoms of essential thrombocythemia are related to an increased risk of {{c1::bleeding}} and/or {{c2::thrombosis}}" will show up either as "Symptoms of essential thrombocythemia are related to an increased risk of thrombosis and/or bleeding" OR "Symptoms of essential thrombocythemia are related to an increased risk of bleeding and/or thrombosis".
+This cloze will show you cards with cloze selections randomly swapped. Example:
+
+Symptoms of essential thrombocythemia are related to an increased risk of {{c1::bleeding}} and/or {{c2::thrombosis}}
+
+It will show up either as
+
+Symptoms of essential thrombocythemia are related to an increased risk of thrombosis and/or bleeding
+
+OR
+
+Symptoms of essential thrombocythemia are related to an increased risk of bleeding and/or thrombosis
 
 # Sort Cards
 
