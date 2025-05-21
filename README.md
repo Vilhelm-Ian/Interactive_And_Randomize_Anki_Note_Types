@@ -13,8 +13,28 @@ These note types let you write multiple questions about the same fact. Each time
 Examples:
 - Who wrote The Hobbit | What is the name of the author of The Hobbit | Who was the author of The Hobbit?
 - The complication with the highest mortality from measles is {{c1::pneumonia}} | Most fatal cases from measles result from {{c1::pneumonia}} | {{c1::Pneumonia}} is the deadliest complication from measles.
+- 
 # Click Words
 This cloze-style card provides possible choices to complete sentences, making grammar exercises more manageable. For instance, to practice the present continuous tense, you might have a sentence like "Today I am [...] tennis.". The issue with the sentence there are too many correct answers (playing, studying, done through) having choices provided to you (e.g., playing, played, plays) helps control the difficulty level.
+
+# Shuffle Cloze
+
+This cloze will show you cards with cloze selections randomly swapped. Example:
+
+Symptoms of essential thrombocythemia are related to an increased risk of {{c1::bleeding}} and/or {{c2::thrombosis}}
+
+It will show up either as
+
+Symptoms of essential thrombocythemia are related to an increased risk of thrombosis and/or bleeding
+
+OR
+
+Symptoms of essential thrombocythemia are related to an increased risk of bleeding and/or thrombosis
+
+# Sort Cards
+
+In this note type you define categories and items that belong to these categories. Then you have to put each item in the right "bucket" - you need to match the items and the categories.
+
 # Other peoples note types
 - [Puzzle Sentences](https://ankiweb.net/shared/info/1522392024)
 - [Interactive card template from cjdduarte](https://forums.ankiweb.net/t/interactive-flashcard-template-with-drag-and-drop-feedback/48977)
