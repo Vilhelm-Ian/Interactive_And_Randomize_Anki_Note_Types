@@ -35,6 +35,16 @@ Symptoms of essential thrombocythemia are related to an increased risk of bleedi
 
 In this note type you define categories and items that belong to these categories. Then you have to put each item in the right "bucket" - you need to match the items and the categories.
 
+# Sequence
+
+This note type helps you learn concepts that occur in a specific, ordered sequence. You are presented with a bank of elements (some correct, some distractors) that you need to drag and drop into the correct order.
+
+Use this note type to:
+- Learn sequential knowledge, such as the steps in **algorithms** or **biochemical pathways** (e.g., glycolysis, Krebs cycle, electron transport chain).
+- Memorize **historical timelines** and the order of events (e.g., the events leading to WW1, Roman emperors).
+- Understand **procedural steps** (e.g., scientific method, first aid protocols, cooking recipes).
+- Practice **grammatical word order** in different languages.
+
 # Other peoples note types
 - [Puzzle Sentences](https://ankiweb.net/shared/info/1522392024)
 - [Interactive card template from cjdduarte](https://forums.ankiweb.net/t/interactive-flashcard-template-with-drag-and-drop-feedback/48977)
