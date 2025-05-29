@@ -8,12 +8,19 @@ Use this note type to:
 - Practice [chunking](https://en.wikipedia.org/wiki/Chunking_(psychology)) concepts together (e.g., bones of the hand, Balkan capitals, planets in the solar system).
 - Recognize images (e.g., tortoise vs. turtle, radial bone vs. ulnar bone).
 
+# Mathc Pairs (Reverse)
+- Same as Match pairs but it tests both way. Country -> Capital and Capital -> country
+
 # Randomized Basic & Randomized Cloze
 These note types let you write multiple questions about the same fact. Each time you encounter the note, a random question will be selected. Separate sentences with the pipe operator (|).
 Examples:
 - Who wrote The Hobbit | What is the name of the author of The Hobbit | Who was the author of The Hobbit?
 - The complication with the highest mortality from measles is {{c1::pneumonia}} | Most fatal cases from measles result from {{c1::pneumonia}} | {{c1::Pneumonia}} is the deadliest complication from measles.
-- 
+
+# Randomized Cloze Type in The Answer
+- Same as randomize cloze but you have to type the answer
+
+
 # Click Words
 This cloze-style card provides possible choices to complete sentences, making grammar exercises more manageable. For instance, to practice the present continuous tense, you might have a sentence like "Today I am [...] tennis.". The issue with the sentence there are too many correct answers (playing, studying, done through) having choices provided to you (e.g., playing, played, plays) helps control the difficulty level.
 
