@@ -1,0 +1,547 @@
+<div id="warning" class="warning">
+  <button class="close" id="close">X</button>
+  <h2>There is a new version of the note type</h2>
+  <a href="https://ankiweb.net/shared/info/171015247">Click Here To download it</a>
+  <p>If you don't want to be informed about updates click here: <input id="check" type="checkbox"></input></p>
+</div>
+
+<dialog>
+  <button id="closeDialog" class="close">X</button>
+  <p>Notification updates have been re-enabled</p>
+</dialog>
+
+
+<div style="display:none;">[sound:_1-second-and-500-milliseconds-of-silence.mp3]</div>
+<p id="keys" style="display:none;">{{First List}}</p>
+<p id="values" style="display:none;">{{Second List}}</p>
+
+<div class="game-container">
+  <ol id="wordList" class="word-lists">
+  </ol>
+  <hr />
+  <div id="horizontalWords"></div>
+  <div id="explanations"></div>
+  <button class="checkButton" id="checkButton">Check</button>
+  <div id="result"></div>
+</div>
+
+<script>
+  function run() {
+    // Constants
+    const CONFIG = {
+      VERSION: 1.1,
+      STORAGE_KEYS: {
+        UPDATES: 'updates',
+        CLOSE: 'close',
+        SHUFFLED_FIRST_LIST: 'shuffledFirstList',
+        SHUFFLED_SECOND_LIST: 'shuffledSecondList',
+        SECOND_LIST: 'secondList'
+      }
+    };
+
+    class MatchingGame {
+      constructor() {
+        this.map = new Map();
+        this.touchedElement = null;
+        this.isBack = document.getElementById('back') !== null;
+
+        this.initializeElements();
+        this.initializeData();
+        this.setupEventListeners();
+        this.initializeGame();
+      }
+
+      initializeElements() {
+        this.elements = {
+          wordList: document.getElementById('wordList'),
+          explanations: document.getElementById('explanations'),
+          horizontalWords: document.getElementById('horizontalWords'),
+          result: document.getElementById('result'),
+          checkButton: document.getElementById('checkButton'),
+          warning: document.getElementById('warning'),
+          check: document.getElementById('check'),
+          close: document.getElementById('close')
+        };
+      }
+
+      initializeData() {
+        const keys = document.getElementById('keys').innerHTML
+          .split('|')
+          .map(text => text.replace('&nbsp;', '').trim());
+
+        let values = document.getElementById('values').innerHTML
+          .split('|')
+          .map(text => text.replace('&nbsp;', '').trim());
+
+        this.addExtraWords(keys, values);
+        keys.forEach((key, index) => this.map.set(key, values[index]));
+
+        this.firstList = keys;
+        this.secondList = values;
+      }
+
+      setupEventListeners() {
+        this.elements.checkButton.addEventListener('click', () => this.check());
+        this.elements.check.addEventListener('click', () => this.noMoreUpdates());
+        this.elements.close.addEventListener('click', () => this.closeWarning());
+        document.getElementById("closeDialog").addEventListener("click", () => document.querySelector("dialog").close())
+
+        // Set up mutation observer
+        const observer = new MutationObserver(() => this.updateSecondListLocalStorage());
+        observer.observe(this.elements.wordList, {
+          childList: true,
+          subtree: true
+        });
+      }
+
+      shuffle(array) {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+      }
+
+      createWordElement(word, isHorizontal = false) {
+        const element = document.createElement(isHorizontal ? 'span' : 'li');
+        element.innerHTML = word;
+        element.querySelectorAll("img").forEach((img) => {
+          img.setAttribute("draggable", "false");
+        });
+        element.className = isHorizontal ? 'horizontal-word' : 'word';
+
+        if (isHorizontal) {
+          element.draggable = true;
+          element.addEventListener('dragstart', (e) => this.drag(e));
+          element.addEventListener('touchstart', (e) => this.touchStart(e));
+          element.addEventListener('touchmove', (e) => this.touchMove(e));
+          element.addEventListener('touchend', (e) => this.touchEnd(e));
+          element.addEventListener('click', () => this.matchWord(word, element));
+        }
+
+        return element;
+      }
+
+      createMatchSlot() {
+        const slot = document.createElement('div');
+        slot.className = 'match-slot';
+        slot.addEventListener('dragover', (e) => this.allowDrop(e));
+        slot.addEventListener('drop', (e) => this.drop(e));
+        slot.addEventListener('touchend', (e) => this.touchDrop(e));
+        slot.addEventListener('click', (e) => this.unmatchWord(e));
+        slot.addEventListener('touchstart', (e) => this.unmatchWord(e));
+        return slot;
+      }
+
+      async initializeGame() {
+
+        this.shuffledFirstList = this.isBack
+          ? JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEYS.SHUFFLED_FIRST_LIST))
+          : this.shuffle(this.firstList);
+
+        this.shuffledSecondList = this.isBack
+          ? JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEYS.SHUFFLED_SECOND_LIST))
+          : this.shuffle(this.secondList);
+
+        this.renderGame();
+        this.setupInitialState();
+        await this.checkVersion();
+        if(this.isBack) {
+          let explanations = document.getElementById("explanationsList").innerHTML.split("|").filter(exp => exp != "")
+          let indexes = this.shuffledFirstList.map(element => this.firstList.findIndex(ele=> ele==element))
+          let orderedExplanations = []
+          indexes.forEach(index=> orderedExplanations.push(explanations[index]))
+          orderedExplanations.length = explanations.length
+          let orderedList = this.renderOrderedList(orderedExplanations);
+          this.elements.explanations.appendChild(orderedList)
+        }
+      }
+    renderOrderedList(items) {
+    if (!Array.isArray(items)) {
+        console.error("Input must be an array of strings.");
+        return;
+    }
+    
+    const ol = document.createElement("ol");
+    
+    items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ol.appendChild(li);
+    });
+    
+    return ol;
+}
+
+      renderGame() {
+        this.elements.wordList.style['grid-template-rows'] =
+          `repeat(${this.firstList.length}, fit-content)`;
+
+        // Render first list
+        this.shuffledFirstList.forEach(word => {
+          this.elements.wordList.appendChild(this.createWordElement(word));
+        });
+
+        // Create match slots
+        this.shuffledFirstList.forEach(() => {
+          this.elements.wordList.appendChild(this.createMatchSlot());
+        });
+
+        // Render second list
+        this.shuffledSecondList.forEach(word => {
+          this.elements.horizontalWords.appendChild(
+            this.createWordElement(word, true)
+          );
+        });
+      }
+      // Game mechanics methods
+      matchWord(word, element) {
+        const emptySlot = Array.from(this.elements.wordList.children)
+          .find(slot => slot.className === 'match-slot' && !slot.innerHTML);
+
+        if (emptySlot) {
+          emptySlot.innerHTML = word;
+          element.remove();
+          this.clearResult();
+        }
+      }
+
+      allowDrop(event) {
+        event.preventDefault();
+      }
+
+      drag(event) {
+        event.dataTransfer.setData('text', event.target.innerHTML);
+      }
+
+      drop(event) {
+        event.preventDefault();
+        const data = event.dataTransfer.getData('text');
+
+        if (event.target.className === 'match-slot' && !event.target.innerHTML) {
+          event.target.innerHTML = data;
+          const draggedElement = Array.from(this.elements.horizontalWords.children)
+            .find(el => el.innerHTML === data);
+
+          if (draggedElement) {
+            draggedElement.remove();
+          }
+          this.clearResult();
+        }
+      }
+
+      touchStart(event) {
+        this.touchedElement = event.target;
+        event.target.style.opacity = '0.5';
+        event.target.style.border = 'dashed';
+      }
+
+      touchMove(event) {
+        event.preventDefault();
+        const touch = event.targetTouches[0];
+        event.target.style.position = 'absolute';
+        event.target.style.left = `${touch.pageX - 50}px`;
+        event.target.style.top = `${touch.pageY - 25}px`;
+      }
+
+      touchEnd(event) {
+        event.preventDefault();
+
+        if (this.touchedElement) {
+          this.touchedElement.style.opacity = '1';
+          this.touchedElement.style.border = 'none';
+
+          const touch = event.changedTouches[0];
+          const matchSlot = document.elementFromPoint(touch.pageX, touch.pageY);
+
+          if (matchSlot?.className === 'match-slot' && !matchSlot.innerHTML) {
+            matchSlot.innerHTML = this.touchedElement.innerHTML;
+            this.touchedElement.remove();
+            this.clearResult();
+          } else if (matchSlot?.className === 'horizontal-word') {
+            this.matchWord(this.touchedElement.innerHTML, this.touchedElement);
+          } else {
+            this.touchedElement.style.position = 'static';
+          }
+
+          this.touchedElement = null;
+        }
+      }
+
+      touchDrop(event) {
+        event.preventDefault();
+        const touch = event.changedTouches[0];
+        const draggedElement = document.elementFromPoint(touch.pageX, touch.pageY);
+
+        if (draggedElement?.className === 'horizontal-word' &&
+          event.target.className === 'match-slot' &&
+          !event.target.innerHTML) {
+          event.target.innerHTML = draggedElement.innerHTML;
+          draggedElement.remove();
+          this.clearResult();
+        }
+      }
+
+      unmatchWord(event) {
+        const slot = event.target;
+        this.resetSlotStyle(slot);
+
+        if (slot.innerHTML) {
+          this.elements.horizontalWords.appendChild(
+            this.createWordElement(slot.innerHTML, true)
+          );
+          slot.innerHTML = '';
+          this.clearResult();
+        }
+      }
+
+      resetSlotStyle(slot) {
+        slot.style.background = 'white';
+        slot.style.color = 'black';
+        slot.style['font-weight'] = 'normal';
+      }
+
+      clearResult() {
+        this.elements.result.innerHTML = '';
+        this.elements.result.style.color = '';
+      }
+
+ check() {
+  const matchedWords = Array.from(this.elements.wordList.children);
+  const firstListElement = matchedWords.filter(element => element.className === 'word');
+  const secondListElement = matchedWords.filter(element => element.className === 'match-slot');
+
+  let isCorrect = true;
+
+  for (let i = 0; i < this.shuffledFirstList.length; i++) {
+    const expectedWord = this.map.get(this.shuffledFirstList[i]);
+    
+    // Extract src attributes from images in both elements
+    const getImgSrc = (html) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const images = doc.querySelectorAll('img');
+      return Array.from(images).map(img => img.getAttribute('src'));
+    };
+    
+    // Get image sources from both expected and actual answers
+    const expectedImgSrcs = getImgSrc(expectedWord);
+    const actualImgSrcs = getImgSrc(secondListElement[i].innerHTML);
+    
+    // Compare text content or image sources
+    let isWordCorrect = false;
+    
+    if (expectedImgSrcs.length > 0 || actualImgSrcs.length > 0) {
+      // If there are images, compare image sources
+      isWordCorrect = JSON.stringify(expectedImgSrcs) === JSON.stringify(actualImgSrcs);
+    } else {
+      // If no images, compare the whole content
+      isWordCorrect = secondListElement[i].innerHTML === expectedWord;
+    }
+
+    secondListElement[i].style.background = isWordCorrect ? '#89e219' : '#ff4b4b';
+    secondListElement[i].style.color = 'white';
+    secondListElement[i].style['font-weight'] = 'bold';
+
+    if (!isWordCorrect) isCorrect = false;
+  }
+
+  this.showResult(isCorrect);
+}
+
+      showResult(isCorrect) {
+        this.elements.result.textContent = isCorrect
+          ? 'Correct! You matched all words correctly!'
+          : 'Sorry, that\'s not correct. Try again!';
+        this.elements.result.style.color = isCorrect ? 'green' : '#ff4b4b';
+      }
+
+      // Utility methods
+      addExtraWords(keys, values) {
+        let extraWords = values.slice(keys.length);
+	    values.length = keys.length
+		console.log({values}) // 7 items
+		console.log({keys}) // 5 items
+		console.log({extraWords}) // empty
+
+        for (let i = 0; i < 2; i++) {
+          const extraWordIndex = Math.floor(Math.random() * extraWords.length);
+          const extraWord = extraWords[extraWordIndex];
+
+          if (extraWord === undefined) break;
+
+          values.push(extraWord);
+          extraWords.splice(extraWordIndex, 1);
+        }
+      }
+
+      async checkVersion() {
+        const updates = localStorage.getItem(CONFIG.STORAGE_KEYS.UPDATES);
+        const close = sessionStorage.getItem(CONFIG.STORAGE_KEYS.CLOSE);
+
+        if (updates || close) return;
+
+        try {
+          const response = await fetch('https://raw.githubusercontent.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/refs/heads/main/VERSION');
+          const version = await response.text();
+
+          if (CONFIG.VERSION < version) {
+            this.elements.warning.style.display = 'block';
+          }
+        } catch (error) {
+          console.error('Failed to check version:', error);
+        }
+      }
+
+      closeWarning() {
+        this.elements.warning.style.display = 'none';
+        sessionStorage.setItem(CONFIG.STORAGE_KEYS.CLOSE, true);
+      }
+
+      noMoreUpdates() {
+        this.elements.warning.style.display = 'none';
+        localStorage.setItem(CONFIG.STORAGE_KEYS.UPDATES, true);
+      }
+
+      updateSecondListLocalStorage() {
+        if (this.isBack) return;
+
+        const itemsInSecondList = Array.from(this.elements.wordList.children)
+          .filter(element => element.className === 'match-slot')
+          .map(element => element.innerHTML);
+
+        const horizontalItems = Array.from(this.elements.horizontalWords.children)
+          .map(word => word.innerHTML);
+
+        localStorage.setItem(CONFIG.STORAGE_KEYS.SECOND_LIST, JSON.stringify(itemsInSecondList));
+        localStorage.setItem(CONFIG.STORAGE_KEYS.SHUFFLED_SECOND_LIST, JSON.stringify(horizontalItems));
+      }
+
+      setupInitialState() {
+        if (!this.isBack) {
+          localStorage.setItem(CONFIG.STORAGE_KEYS.SHUFFLED_FIRST_LIST,
+            JSON.stringify(this.shuffledFirstList));
+          localStorage.setItem(CONFIG.STORAGE_KEYS.SHUFFLED_SECOND_LIST,
+            JSON.stringify(this.shuffledSecondList));
+          localStorage.setItem(CONFIG.STORAGE_KEYS.SECOND_LIST,
+            JSON.stringify([]));
+          this.elements.checkButton.style.display = 'none';
+        } else {
+          this.restoreGameState();
+        }
+      }
+
+      restoreGameState() {
+        const secondListItems = JSON.parse(
+          localStorage.getItem(CONFIG.STORAGE_KEYS.SECOND_LIST)
+        );
+
+        secondListItems.forEach((item, index) => {
+          const matchSlot = Array.from(this.elements.wordList.children)[
+            this.shuffledFirstList.length + index
+          ];
+
+          if (matchSlot) {
+            matchSlot.innerHTML = item;
+            const horizontalWord = Array.from(this.elements.horizontalWords.children)
+              .find(word => word.innerHTML === item);
+            if (horizontalWord) {
+              horizontalWord.remove();
+            }
+          }
+        });
+
+        this.check();
+        this.clearLocalStorage();
+      }
+
+      clearLocalStorage() {
+        localStorage.removeItem(CONFIG.STORAGE_KEYS.SECOND_LIST);
+        localStorage.removeItem(CONFIG.STORAGE_KEYS.SHUFFLED_SECOND_LIST);
+      }
+    }
+    // This is to prevent from audio autmotically playing
+    let sound = document.querySelector(".soundLink")
+    if (sound) sound.click()
+    new MatchingGame();
+    let count = 0;
+    let elements = new Map();
+
+    document.querySelector("body").addEventListener('click', function (event) {
+      let countdown;
+
+      function reset() {
+        count = 0;
+        countdown = null;
+      }
+
+      count++;
+
+      if (count === 3) {
+        if (!elements.has(event.target)) {
+          elements.set(event.target, 1);
+        } else {
+          let currentCount = elements.get(event.target);
+          currentCount++;
+          elements.set(event.target, currentCount);
+        }
+
+        let tripleClick = new CustomEvent('trplclick', {
+          bubbles: true,
+          detail: {
+            numberOfTripleClicks: elements.get(event.target)
+          }
+        });
+        reset();
+        if (localStorage.getItem("updates")) {
+          localStorage.removeItem("updates")
+          document.querySelector("dialog").showModal()
+        }
+      }
+
+      if (!countdown) {
+        countdown = window.setTimeout(function () {
+          reset();
+        }, 500);
+      }
+    });
+  }
+  run()
+</script>
+<script>
+  // Split hierarchical tags
+  var tagsContainerEl = document.querySelectorAll('.prettify-tags > *')
+  if (tagsContainerEl.length > 0) {
+    var tags = []
+    tagsContainerEl.forEach((tagEl) => {
+      tagEl.classList.add('prettify-tag')
+      tags.push(tagEl.innerHTML)
+      tags.forEach((tag) => {
+        var childTag = tag.split('::').filter(Boolean)
+        tagEl.innerHTML = childTag[childTag.length - 1].trim()
+      })
+    })
+  } else {
+    tagsContainerEl = document.querySelector('.prettify-tags')
+    var tags = tagsContainerEl.innerHTML.split(' ').filter(Boolean)
+    var html = ''
+    tags.forEach((tag) => {
+      var childTag = tag.split('::').filter(Boolean)
+      html +=
+        "<span class='prettify-tag'>" +
+        childTag[childTag.length - 1] +
+        '</span>'
+    })
+    tagsContainerEl.innerHTML = html
+  }
+
+  // Breadcrumbs to current deck
+  var deckEl = document.querySelector('.prettify-deck')
+  var subDecks = deckEl.innerHTML.split('::').filter(Boolean)
+  html = []
+  subDecks.forEach((subDeck) => {
+    html.push("<span class='prettify-subdeck'>" + subDeck + '</span>')
+  })
+  deckEl.innerHTML = html.join('&nbsp;/&nbsp;')
+</script>
