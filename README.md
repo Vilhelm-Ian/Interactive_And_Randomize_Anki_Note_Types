@@ -8,8 +8,8 @@ Use this note type to:
 - Practice [chunking](https://en.wikipedia.org/wiki/Chunking_(psychology)) concepts together (e.g., bones of the hand, Balkan capitals, planets in the solar system).
 - Recognize images (e.g., tortoise vs. turtle, radial bone vs. ulnar bone).
 
-# Mathc Pairs (Reverse)
-- Same as Match pairs but it tests both way. Country -> Capital and Capital -> country
+# Match Pairs (Reverse)
+Same as Match pairs but it tests both way. For example, Countries -> Capitals and Capitals -> Countries.
 
 # Randomized Basic & Randomized Cloze
 These note types let you write multiple questions about the same fact. Each time you encounter the note, a random question will be selected. Separate sentences with the pipe operator (|).
@@ -18,14 +18,12 @@ Examples:
 - The complication with the highest mortality from measles is {{c1::pneumonia}} | Most fatal cases from measles result from {{c1::pneumonia}} | {{c1::Pneumonia}} is the deadliest complication from measles.
 
 # Randomized Cloze Type in The Answer
-- Same as randomize cloze but you have to type the answer
-
+Same as randomize cloze but you have to type the answer
 
 # Click Words
 This cloze-style card provides possible choices to complete sentences, making grammar exercises more manageable. For instance, to practice the present continuous tense, you might have a sentence like "Today I am [...] tennis.". The issue with the sentence there are too many correct answers (playing, studying, done through) having choices provided to you (e.g., playing, played, plays) helps control the difficulty level.
 
 # Shuffle Cloze
-
 This cloze will show you cards with cloze selections randomly swapped. Example:
 
 Symptoms of essential thrombocythemia are related to an increased risk of {{c1::bleeding}} and/or {{c2::thrombosis}}
@@ -39,11 +37,9 @@ OR
 Symptoms of essential thrombocythemia are related to an increased risk of bleeding and/or thrombosis
 
 # Sort Cards
-
 In this note type you define categories and items that belong to these categories. Then you have to put each item in the right "bucket" - you need to match the items and the categories.
 
 # Sequence
-
 This note type helps you learn concepts that occur in a specific, ordered sequence. You are presented with a bank of elements (some correct, some distractors) that you need to drag and drop into the correct order.
 
 Use this note type to:
