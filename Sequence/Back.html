@@ -1,602 +1,636 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Timeline Builder - Result & Retry</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<style>
-body {
-    font-family: Arial, sans-serif;
-    color: white;
-    background-color: #1e1e1e;
-    margin: 20px;
-}
+    <meta charset="UTF-8">
+    <title>Timeline Builder - Result & Retry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            background-color: #1e1e1e;
+            margin: 20px;
+        }
 
-.title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-}
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    min-height: 60px;
-    padding: 15px;
-    border: 2px solid #555;
-    border-radius: 8px;
-    background-color: #2a2a2a;
-    margin: 10px 0 30px 0;
-}
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 60px;
+            padding: 15px;
+            border: 2px solid #555;
+            border-radius: 8px;
+            background-color: #2a2a2a;
+            margin: 10px 0 30px 0;
+        }
 
-.timeline-section {
-    margin-bottom: 20px;
-}
+        .timeline-section {
+            margin-bottom: 20px;
+        }
 
-.timeline-section h3 {
-    margin-bottom: 15px;
-    font-size: 18px;
-}
+        .timeline-section h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
 
-.word {
-    padding: 10px 15px;
-    background: #333; /* Default */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    user-select: none;
-    touch-action: manipulation;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    box-sizing: border-box;
-    cursor: move; /* Default cursor for draggable items */
-}
-.word.draggable-active:hover { /* Hover for active draggable items */
-    background: #444;
-}
-.word.draggable-active:active { /* Active state for draggable items */
-    background: #555;
-    transform: scale(0.95);
-}
+        .word {
+            padding: 10px 15px;
+            background: #333;
+            /* Default */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            user-select: none;
+            touch-action: manipulation;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            box-sizing: border-box;
+            cursor: move;
+            /* Default cursor for draggable items */
+        }
 
+        .word.draggable-active:hover {
+            /* Hover for active draggable items */
+            background: #444;
+        }
 
-.word.inactive { /* For word bank items that are used */
-    opacity: 0.5;
-    pointer-events: none; /* Make it not draggable/clickable */
-    cursor: default;
-}
-.word.static-answer { /* For items displayed by "Show Answer" */
-    cursor: default;
-    pointer-events: none;
-    background-color: #17a2b8; /* Info Blue for shown answer */
-    border-color: #117a8b;
-}
+        .word.draggable-active:active {
+            /* Active state for draggable items */
+            background: #555;
+            transform: scale(0.95);
+        }
 
 
-/* Feedback Styles */
-.word.correct-position {
-    background-color: #28a745; /* Green */
-    border-color: #1e7e34;
-}
-.word.wrong-position {
-    background-color: #dc3545; /* Red (Changed from yellow) */
-    border-color: #b02a37; /* Darker Red */
-    color: white; /* Changed for contrast on red */
-}
-.word.extra-item {
-    background-color: #dc3545; /* Red */
-    border-color: #b02a37;
-}
+        .word.inactive {
+            /* For word bank items that are used */
+            opacity: 0.5;
+            pointer-events: none;
+            /* Make it not draggable/clickable */
+            cursor: default;
+        }
 
-.hidden {
-    display: none !important;
-}
-
-.drag-over {
-    border: 2px dashed #4CAF50 !important;
-    background-color: #1a3a1a !important;
-}
-
-#controls {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#controls button {
-    padding: 10px 20px;
-    font-size: 16px;
-    margin: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    transition: background-color 0.2s ease;
-}
-#controls button:hover {
-    background-color: #0056b3;
-}
-#controls button:active {
-    background-color: #004085;
-}
-#controls button:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-    opacity: 0.7;
-}
+        .word.static-answer {
+            /* For items displayed by "Show Answer" */
+            cursor: default;
+            pointer-events: none;
+            background-color: #17a2b8;
+            /* Info Blue for shown answer */
+            border-color: #117a8b;
+        }
 
 
-#explanation-area {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #2a2a2a;
-    border: 1px solid #555;
-    border-radius: 8px;
-}
-#explanation-area h3 {
-    margin-top: 0;
-    font-size: 18px;
-}
-#explanation-area p {
-    font-size: 16px;
-    line-height: 1.6;
-}
+        /* Feedback Styles */
+        .word.correct-position {
+            background-color: #28a745;
+            /* Green */
+            border-color: #1e7e34;
+        }
 
-/* Mobile-friendly styles */
-@media (max-width: 768px) {
-    body {
-        margin: 10px;
-    }
-    .title {
-        font-size: 20px;
-    }
-    .timeline-section h3 {
-        font-size: 17px;
-    }
-    .word {
-        padding: 12px 10px;
-        font-size: 14px;
-        flex-grow: 1;
-    }
-    .container {
-        padding: 12px;
-    }
-    #controls button {
-        padding: 12px 15px;
-        font-size: 15px;
-        display: block;
-        width: calc(100% - 20px);
-        max-width: 300px;
-        margin: 10px auto;
-    }
-    #explanation-area p {
-        font-size: 15px;
-    }
-}
-</style>
+        .word.wrong-position {
+            background-color: #dc3545;
+            /* Red (Changed from yellow) */
+            border-color: #b02a37;
+            /* Darker Red */
+            color: white;
+            /* Changed for contrast on red */
+        }
+
+        .word.extra-item {
+            background-color: #dc3545;
+            /* Red */
+            border-color: #b02a37;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .drag-over {
+            border: 2px dashed #4CAF50 !important;
+            background-color: #1a3a1a !important;
+        }
+
+        #controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #controls button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.2s ease;
+        }
+
+        #controls button:hover {
+            background-color: #0056b3;
+        }
+
+        #controls button:active {
+            background-color: #004085;
+        }
+
+        #controls button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+
+        #explanation-area {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #2a2a2a;
+            border: 1px solid #555;
+            border-radius: 8px;
+        }
+
+        #explanation-area h3 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        #explanation-area p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Mobile-friendly styles */
+        @media (max-width: 768px) {
+            body {
+                margin: 10px;
+            }
+
+            .title {
+                font-size: 20px;
+            }
+
+            .timeline-section h3 {
+                font-size: 17px;
+            }
+
+            .word {
+                padding: 12px 10px;
+                font-size: 14px;
+                flex-grow: 1;
+            }
+
+            .container {
+                padding: 12px;
+            }
+
+            #controls button {
+                padding: 12px 15px;
+                font-size: 15px;
+                display: block;
+                width: calc(100% - 20px);
+                max-width: 300px;
+                margin: 10px auto;
+            }
+
+            #explanation-area p {
+                font-size: 15px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="title">{{Title}}</div>
+    <div class="title">{{Title}}</div>
 
-<div class="timeline-section">
-  <h3>Sequence</h3>
-  <div id="constructed-result" class="container" ondrop="dropBack(event)" ondragover="allowDropBack(event)" ondragenter="dragEnterBack(event)" ondragleave="dragLeaveBack(event)">
-    <!-- JavaScript will populate this from localStorage initially -->
-  </div>
-</div>
+    <div class="timeline-section">
+        <h3>Sequence</h3>
+        <div id="constructed-result" class="container" ondrop="dropBack(event)" ondragover="allowDropBack(event)"
+            ondragenter="dragEnterBack(event)" ondragleave="dragLeaveBack(event)">
+            <!-- JavaScript will populate this from localStorage initially -->
+        </div>
+    </div>
 
-<div id="controls">
-  <button id="checkAnswerBtn">Check Answer</button>
-  <button id="showAnswerBtn">Show Answer</button>
-</div>
+    <div id="controls">
+        <button id="checkAnswerBtn">Check Answer</button>
+        <button id="showAnswerBtn">Show Answer</button>
+    </div>
 
-<div class="timeline-section" id="word-bank-section-back">
-  <h3>Elements</h3>
-  <div id="word-bank-back" class="container" ondrop="dropBack(event)" ondragover="allowDropBack(event)" ondragenter="dragEnterBack(event)" ondragleave="dragLeaveBack(event)">
-    <!-- JavaScript will populate this -->
-  </div>
-</div>
+    <div class="timeline-section" id="word-bank-section-back">
+        <h3>Elements</h3>
+        <div id="word-bank-back" class="container" ondrop="dropBack(event)" ondragover="allowDropBack(event)"
+            ondragenter="dragEnterBack(event)" ondragleave="dragLeaveBack(event)">
+            <!-- JavaScript will populate this -->
+        </div>
+    </div>
 
-<div id="explanation-area" class="hidden">
-  <h3>Explanation:</h3>
-  <p id="explanation-text"></p>
-</div>
+    <div id="explanation-area" class="hidden">
+        <h3>Explanation:</h3>
+        <p id="explanation-text"></p>
+    </div>
 
-<script>
-(()=>{ // Start of IIFE
-    let draggedElementBack = null;
-    let touchStartTimeBack = 0;
-    let dragCounterBack = 0;
-    let correctTimeline = []; // This will be the array from localStorage
-    let allWordsForBank = [];
-    let answerShown = false;
+    <script>
+        (() => { // Start of IIFE
+            let draggedElementBack = null;
+            let touchStartTimeBack = 0;
+            let dragCounterBack = 0;
+            let correctTimeline = []; // This will be the array from localStorage
+            let allWordsForBank = [];
+            let answerShown = false;
 
-    const constructedContainer = document.getElementById("constructed-result");
-    const wordBankContainer = document.getElementById("word-bank-back");
-    const checkBtn = document.getElementById("checkAnswerBtn");
-    const showBtn = document.getElementById("showAnswerBtn");
-    const wordBankSection = document.getElementById("word-bank-section-back");
+            const constructedContainer = document.getElementById("constructed-result");
+            const wordBankContainer = document.getElementById("word-bank-back");
+            const checkBtn = document.getElementById("checkAnswerBtn");
+            const showBtn = document.getElementById("showAnswerBtn");
+            const wordBankSection = document.getElementById("word-bank-section-back");
 
-    // This function is still useful for parsing the raw (pipe-delimited) event and extra lists
-    // which are stored in the hidden divs of the front template, and which also might be useful
-    // if we ever needed to re-generate correctTimeline from raw input.
-    // However, correctTimeline from localStorage is now stored as JSON array.
-    function parsePipedField(raw) {
-        return (raw && raw.match(/\|([^|]+)\|/g) || []).map(e => e.replace(/\|/g, '').trim()).filter(s => s !== "");
-    }
-
-    function shuffle(arr) {
-        const a = [...arr];
-        for (let i = a.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
-    }
-
-    function removeAllFeedbackClasses() {
-        Array.from(constructedContainer.children).forEach(el => {
-            el.classList.remove('correct-position', 'wrong-position', 'extra-item');
-        });
-    }
-
-    // --- Drag and Drop Functions (adapted for back) ---
-    window.allowDropBack = function(ev) {
-        if (answerShown) return;
-        ev.preventDefault();
-    }
-
-    window.dragEnterBack = function(ev) {
-        if (answerShown) return;
-        ev.preventDefault();
-        dragCounterBack++;
-        if (ev.currentTarget.classList.contains('container')) {
-            ev.currentTarget.classList.add('drag-over');
-        }
-    }
-
-    window.dragLeaveBack = function(ev) {
-        if (answerShown) return;
-        ev.preventDefault();
-        dragCounterBack--;
-        if (dragCounterBack === 0 && ev.currentTarget.classList.contains('container')) {
-            ev.currentTarget.classList.remove('drag-over');
-        }
-    }
-
-    function dragBack(ev) {
-        if (answerShown || !ev.target.classList.contains('word')) return;
-        draggedElementBack = ev.target;
-        ev.dataTransfer.setData("text", ev.target.id);
-        ev.dataTransfer.effectAllowed = "move";
-        // No need to remove feedback here, drop will handle it or checkAnswer will refresh
-    }
-
-    window.dropBack = function(ev) {
-        if (answerShown) return;
-        ev.preventDefault();
-        dragCounterBack = 0;
-        ev.currentTarget.classList.remove('drag-over');
-        removeAllFeedbackClasses(); // Clear feedback on any structural change
-
-        const id = ev.dataTransfer.getData("text");
-        const draggedEl = document.getElementById(id);
-        const targetContainer = ev.currentTarget;
-
-        if (!draggedEl || !draggedEl.classList.contains('word') || !targetContainer.classList.contains('container')) {
-            return;
-        }
-
-        const afterElement = getDragAfterElementBack(targetContainer, ev.clientX, draggedEl);
-
-        if (draggedEl.parentElement === targetContainer) { // Reordering
-            if (afterElement === undefined) { // append
-                targetContainer.appendChild(draggedEl);
-            } else { // insert before
-                targetContainer.insertBefore(draggedEl, afterElement);
+            // This function is still useful for parsing the raw (pipe-delimited) event and extra lists
+            // which are stored in the hidden divs of the front template, and which also might be useful
+            // if we ever needed to re-generate correctTimeline from raw input.
+            // However, correctTimeline from localStorage is now stored as JSON array.
+            function parsePipedField(raw) {
+                return (raw && raw.match(/\|([^|]+)\|/g) || []).map(e => e.replace(/\|/g, '').trim()).filter(s => s !== "");
             }
-        } else { // Moving between containers
-            if (targetContainer.id === 'constructed-result') {
-                moveToConstructedOnBack(draggedEl, afterElement);
-            } else if (targetContainer.id === 'word-bank-back') {
-                returnToBankOnBack(draggedEl); // afterElement doesn't apply to bank return
+
+            function shuffle(arr) {
+                const a = [...arr];
+                for (let i = a.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [a[i], a[j]] = [a[j], a[i]];
+                }
+                return a;
             }
-        }
-    }
 
-    function getDragAfterElementBack(container, x, draggedItem) {
-        const draggableElements = [...container.children]
-            .filter(child => child.classList.contains('word') && child !== draggedItem && !child.classList.contains('inactive'));
+            function removeAllFeedbackClasses() {
+                Array.from(constructedContainer.children).forEach(el => {
+                    el.classList.remove('correct-position', 'wrong-position', 'extra-item');
+                });
+            }
 
-        const result = draggableElements.reduce((closest, child) => {
-            const box = child.getBoundingClientRect();
-            const offset = x - box.left - box.width / 2;
-            if (offset < 0 && offset > closest.offset) {
-                return { offset: offset, element: child };
+            // --- Drag and Drop Functions (adapted for back) ---
+            window.allowDropBack = function (ev) {
+                if (answerShown) return;
+                ev.preventDefault();
+            }
+
+            window.dragEnterBack = function (ev) {
+                if (answerShown) return;
+                ev.preventDefault();
+                dragCounterBack++;
+                if (ev.currentTarget.classList.contains('container')) {
+                    ev.currentTarget.classList.add('drag-over');
+                }
+            }
+
+            window.dragLeaveBack = function (ev) {
+                if (answerShown) return;
+                ev.preventDefault();
+                dragCounterBack--;
+                if (dragCounterBack === 0 && ev.currentTarget.classList.contains('container')) {
+                    ev.currentTarget.classList.remove('drag-over');
+                }
+            }
+
+            function dragBack(ev) {
+                if (answerShown || !ev.target.classList.contains('word')) return;
+                draggedElementBack = ev.target;
+                ev.dataTransfer.setData("text", ev.target.id);
+                ev.dataTransfer.effectAllowed = "move";
+                // No need to remove feedback here, drop will handle it or checkAnswer will refresh
+            }
+
+            window.dropBack = function (ev) {
+                if (answerShown) return;
+                ev.preventDefault();
+                dragCounterBack = 0;
+                ev.currentTarget.classList.remove('drag-over');
+                removeAllFeedbackClasses(); // Clear feedback on any structural change
+
+                const id = ev.dataTransfer.getData("text");
+                const draggedEl = document.getElementById(id);
+                const targetContainer = ev.currentTarget;
+
+                if (!draggedEl || !draggedEl.classList.contains('word') || !targetContainer.classList.contains('container')) {
+                    return;
+                }
+
+                const afterElement = getDragAfterElementBack(targetContainer, ev.clientX, draggedEl);
+
+                if (draggedEl.parentElement === targetContainer) { // Reordering
+                    if (afterElement === undefined) { // append
+                        targetContainer.appendChild(draggedEl);
+                    } else { // insert before
+                        targetContainer.insertBefore(draggedEl, afterElement);
+                    }
+                } else { // Moving between containers
+                    if (targetContainer.id === 'constructed-result') {
+                        moveToConstructedOnBack(draggedEl, afterElement);
+                    } else if (targetContainer.id === 'word-bank-back') {
+                        returnToBankOnBack(draggedEl); // afterElement doesn't apply to bank return
+                    }
+                }
+            }
+
+            function getDragAfterElementBack(container, x, draggedItem) {
+                const draggableElements = [...container.children]
+                    .filter(child => child.classList.contains('word') && child !== draggedItem && !child.classList.contains('inactive'));
+
+                const result = draggableElements.reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = x - box.left - box.width / 2;
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                }, { offset: Number.NEGATIVE_INFINITY });
+                return result.element; // This can be undefined if no element is found
+            }
+
+
+            function moveToConstructedOnBack(originalBankElement, afterElement = null) {
+                // originalBankElement is from the word-bank-back
+                const clonedElement = originalBankElement.cloneNode(true); // Always clone for constructed area
+                clonedElement.id = "constructed-" + originalBankElement.id + "-" + Date.now();
+                clonedElement.classList.remove('inactive'); // Should not be inactive in constructed
+                clonedElement.classList.add('draggable-active'); // Ensure it's stylable as active
+                clonedElement.draggable = true;
+                clonedElement.dataset.originalBankId = originalBankElement.id; // Link to original bank item
+
+                // Add event listeners for the new clone in the constructed area
+                clonedElement.addEventListener("dragstart", dragBack);
+                clonedElement.addEventListener("click", handleConstructedClickBack);
+                clonedElement.addEventListener("touchstart", handleTouchStartBack, { passive: false });
+                clonedElement.addEventListener("touchend", handleTouchEndBack);
+
+                if (afterElement) {
+                    constructedContainer.insertBefore(clonedElement, afterElement);
+                } else {
+                    constructedContainer.appendChild(clonedElement);
+                }
+                originalBankElement.classList.add("inactive"); // Deactivate in bank
+                originalBankElement.draggable = false;
+            }
+
+            function returnToBankOnBack(constructedElement) {
+                const originalBankId = constructedElement.dataset.originalBankId;
+                if (originalBankId && originalBankId.startsWith("bank-back-")) { // Only reactivate if it's from a real bank item
+                    const originalBankElement = document.getElementById(originalBankId);
+                    if (originalBankElement) {
+                        originalBankElement.classList.remove('inactive');
+                        originalBankElement.draggable = true;
+                    }
+                }
+                constructedElement.remove();
+            }
+
+            // --- Click/Tap Handlers (adapted for back) ---
+            function handleBankClickBack(ev) {
+                if (answerShown) return;
+                ev.preventDefault();
+                const target = ev.target.closest('.word');
+                if (target && target.parentElement.id === "word-bank-back" && !target.classList.contains('inactive')) {
+                    removeAllFeedbackClasses();
+                    moveToConstructedOnBack(target); // Appends by default
+                }
+            }
+
+            function handleConstructedClickBack(ev) {
+                if (answerShown) return;
+                ev.preventDefault();
+                const target = ev.target.closest('.word');
+                if (target && target.parentElement.id === "constructed-result") {
+                    removeAllFeedbackClasses();
+                    returnToBankOnBack(target);
+                }
+            }
+
+            function handleTouchStartBack(ev) {
+                if (answerShown || !ev.target.closest('.word')) return;
+                touchStartTimeBack = Date.now();
+                // ev.preventDefault(); // Allow scrolling if not a quick tap
+            }
+
+            function handleTouchEndBack(ev) {
+                if (answerShown) return;
+                const target = ev.target.closest('.word');
+                if (!target) return;
+
+                const touchDuration = Date.now() - touchStartTimeBack;
+
+                if (touchDuration < 250) { // Threshold for tap
+                    ev.preventDefault(); // Prevent click event if it was a tap
+                    removeAllFeedbackClasses();
+                    if (target.parentElement.id === "word-bank-back" && !target.classList.contains('inactive')) {
+                        moveToConstructedOnBack(target);
+                    } else if (target.parentElement.id === "constructed-result") {
+                        returnToBankOnBack(target);
+                    }
+                }
+                // If it's a longer touch, it might be a drag, which is handled by drag events.
+            }
+
+            // --- Core Logic Functions ---
+            function displayExplanation() {
+                const explanationTextEl = document.getElementById("explanation-text");
+                const explanationArea = document.getElementById("explanation-area");
+                const explanation = localStorage.getItem("explanation");
+
+                // Check if explanation is a valid non-empty string or 'null'/'undefined' string
+                if (explanation && explanation.trim() !== "" && explanation.trim().toLowerCase() !== "null" && explanation.trim().toLowerCase() !== "undefined") {
+                    explanationTextEl.innerHTML = explanation.replace(/\n/g, '<br>');
+                    explanationArea.classList.remove("hidden");
+                } else {
+                    explanationArea.classList.add("hidden");
+                }
+            }
+
+            function checkAnswer() {
+                if (answerShown) return;
+                removeAllFeedbackClasses();
+
+                const userConstructedItems = Array.from(constructedContainer.children);
+                const currentUserTimeline = userConstructedItems.map(el => el.textContent.trim());
+
+                // Feedback logic
+                currentUserTimeline.forEach((wordText, index) => {
+                    const wordDiv = userConstructedItems[index];
+                    if (wordDiv) { // Ensure wordDiv exists
+                        if (index < correctTimeline.length && wordText === correctTimeline[index]) {
+                            wordDiv.classList.add("correct-position");
+                        } else if (correctTimeline.includes(wordText)) {
+                            wordDiv.classList.add("wrong-position"); // This will now be red due to CSS change
+                        } else {
+                            wordDiv.classList.add("extra-item"); // This is already red
+                        }
+                    }
+                });
+
+                // Highlight missing correct items if any - (No visual change for missing items)
+                // correctTimeline.forEach(correctWord => {
+                //     if (!currentUserTimeline.includes(correctWord)) {
+                //         // Add logic here if you want to indicate missing items visually
+                //     }
+                // });
+
+                displayExplanation();
+            }
+
+            function showAnswer() {
+                answerShown = true;
+                removeAllFeedbackClasses();
+                constructedContainer.innerHTML = ''; // Clear user's attempt
+                wordBankContainer.innerHTML = ''; // Clear word bank
+                wordBankSection.classList.add('hidden'); // Hide word bank section
+
+                if (!correctTimeline || correctTimeline.length === 0) {
+                    const msgDiv = document.createElement('div');
+                    msgDiv.textContent = "No correct answer defined for this card.";
+                    msgDiv.style.textAlign = "center";
+                    msgDiv.style.padding = "10px";
+                    constructedContainer.appendChild(msgDiv);
+                } else {
+                    correctTimeline.forEach(wordText => {
+                        const wordDiv = document.createElement("div");
+                        wordDiv.className = "word static-answer correct-position"; // Apply static and correct styles
+                        wordDiv.textContent = wordText;
+                        constructedContainer.appendChild(wordDiv);
+                    });
+                }
+                checkBtn.disabled = true;
+                showBtn.disabled = true;
+                displayExplanation();
+            }
+
+            function populateWordBankBack() {
+                wordBankContainer.innerHTML = '';
+                allWordsForBank.forEach((word, index) => {
+                    const div = document.createElement("div");
+                    div.className = "word draggable-active";
+                    div.textContent = word;
+                    // Use a unique ID that starts with 'bank-back-' for easy identification
+                    div.id = "bank-back-" + index + "-" + Math.random().toString(16).slice(2);
+                    div.draggable = true;
+
+                    div.addEventListener("dragstart", dragBack);
+                    div.addEventListener("click", handleBankClickBack);
+                    div.addEventListener("touchstart", handleTouchStartBack, { passive: false });
+                    div.addEventListener("touchend", handleTouchEndBack);
+                    wordBankContainer.appendChild(div);
+                });
+            }
+
+            function populateConstructedFromLocalStorage() {
+                constructedContainer.innerHTML = '';
+                const userTimelineRaw = localStorage.getItem("sentenceProgress");
+                let userTimelineArray = [];
+
+                if (userTimelineRaw) {
+                    try {
+                        // Attempt to parse JSON (new format: ["a","b","c"])
+                        const parsed = JSON.parse(userTimelineRaw);
+                        if (Array.isArray(parsed)) {
+                            userTimelineArray = parsed;
+                        } else {
+                            // Fallback for non-array JSON (e.g., old string 'null' stringified)
+                            console.warn("localStorage 'sentenceProgress' was parsed as JSON but not an array, attempting old format parse.");
+                            userTimelineArray = String(userTimelineRaw).split("|||").filter(s => s.trim() !== "");
+                        }
+                    } catch (e) {
+                        // Fallback for old '|||' delimited string format
+                        console.warn("Failed to parse 'sentenceProgress' as JSON, falling back to old format.", e);
+                        userTimelineArray = userTimelineRaw.split("|||").filter(s => s.trim() !== "");
+                    }
+                }
+
+                userTimelineArray.forEach(wordText => {
+                    // Find the original word in the bank that is not yet 'inactive'
+                    // This is crucial to ensure we link back to the correct original element
+                    let originalBankElement = Array.from(wordBankContainer.children).find(el =>
+                        el.textContent.trim() === wordText && !el.classList.contains('inactive') && el.id.startsWith('bank-back-')
+                    );
+
+                    if (originalBankElement) {
+                        moveToConstructedOnBack(originalBankElement); // This will clone and deactivate original
+                    } else {
+                        // This handles cases where a word from LS might not be found in the current word bank.
+                        // E.g., if a word was in the constructed list but was later removed from the correct/extra list,
+                        // or if there's a duplicate and all originals are already 'inactive'.
+                        // Create a temporary element, but it won't link back to a bank item for reactivation.
+                        const div = document.createElement("div");
+                        div.className = "word draggable-active extra-item"; // Mark as extra if it's not found
+                        div.textContent = wordText;
+                        div.id = "constructed-orphan-" + Date.now() + Math.random().toString(16).slice(2);
+                        div.draggable = true;
+                        div.dataset.originalBankId = "orphan-" + div.id; // Mark as an orphan, won't reactivate a bank item
+
+                        div.addEventListener("dragstart", dragBack);
+                        div.addEventListener("click", handleConstructedClickBack);
+                        div.addEventListener("touchstart", handleTouchStartBack, { passive: false });
+                        div.addEventListener("touchend", handleTouchEndBack);
+                        constructedContainer.appendChild(div);
+                    }
+                });
+                removeAllFeedbackClasses(); // Ensure no feedback on initial load from LS
+            }
+
+
+            function initializeBackView() {
+                const correctOrderRaw = localStorage.getItem("correctOrder");
+                const extrasRaw = localStorage.getItem("rawExtras"); // This is still a raw string
+
+                // Parse correctTimeline from localStorage as an array
+                if (correctOrderRaw) {
+                    try {
+                        const parsedCorrect = JSON.parse(correctOrderRaw);
+                        if (Array.isArray(parsedCorrect)) {
+                            correctTimeline = parsedCorrect;
+                        } else {
+                            // Fallback for non-array JSON or if old string was incorrectly stringified
+                            console.warn("localStorage 'correctOrder' was parsed as JSON but not an array, attempting old format parse.");
+                            correctTimeline = parsePipedField(correctOrderRaw); // Use old parser
+                        }
+                    } catch (e) {
+                        // Fallback if it's the old '|||' delimited string format
+                        console.warn("Failed to parse 'correctOrder' as JSON, falling back to old format.", e);
+                        correctTimeline = parsePipedField(correctOrderRaw);
+                    }
+                } else {
+                    correctTimeline = [];
+                }
+
+
+                const extras = parsePipedField(extrasRaw); // This remains parsed from raw string
+                allWordsForBank = shuffle([...correctTimeline, ...extras]);
+
+                populateWordBankBack();
+                populateConstructedFromLocalStorage();
+
+                checkBtn.addEventListener("click", checkAnswer);
+                showBtn.addEventListener("click", showAnswer);
+
+                checkAnswer(); // Perform initial check after loading progress
+            }
+
+            // --- Initialize ---
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeBackView);
             } else {
-                return closest;
+                initializeBackView();
             }
-        }, { offset: Number.NEGATIVE_INFINITY });
-        return result.element; // This can be undefined if no element is found
-    }
 
-
-    function moveToConstructedOnBack(originalBankElement, afterElement = null) {
-        // originalBankElement is from the word-bank-back
-        const clonedElement = originalBankElement.cloneNode(true); // Always clone for constructed area
-        clonedElement.id = "constructed-" + originalBankElement.id + "-" + Date.now();
-        clonedElement.classList.remove('inactive'); // Should not be inactive in constructed
-        clonedElement.classList.add('draggable-active'); // Ensure it's stylable as active
-        clonedElement.draggable = true;
-        clonedElement.dataset.originalBankId = originalBankElement.id; // Link to original bank item
-
-        // Add event listeners for the new clone in the constructed area
-        clonedElement.addEventListener("dragstart", dragBack);
-        clonedElement.addEventListener("click", handleConstructedClickBack);
-        clonedElement.addEventListener("touchstart", handleTouchStartBack, { passive: false });
-        clonedElement.addEventListener("touchend", handleTouchEndBack);
-
-        if (afterElement) {
-            constructedContainer.insertBefore(clonedElement, afterElement);
-        } else {
-            constructedContainer.appendChild(clonedElement);
-        }
-        originalBankElement.classList.add("inactive"); // Deactivate in bank
-        originalBankElement.draggable = false;
-    }
-
-    function returnToBankOnBack(constructedElement) {
-        const originalBankId = constructedElement.dataset.originalBankId;
-        if (originalBankId && originalBankId.startsWith("bank-back-")) { // Only reactivate if it's from a real bank item
-            const originalBankElement = document.getElementById(originalBankId);
-            if (originalBankElement) {
-                originalBankElement.classList.remove('inactive');
-                originalBankElement.draggable = true;
-            }
-        }
-        constructedElement.remove();
-    }
-
-    // --- Click/Tap Handlers (adapted for back) ---
-    function handleBankClickBack(ev) {
-        if (answerShown) return;
-        ev.preventDefault();
-        const target = ev.target.closest('.word');
-        if (target && target.parentElement.id === "word-bank-back" && !target.classList.contains('inactive')) {
-            removeAllFeedbackClasses();
-            moveToConstructedOnBack(target); // Appends by default
-        }
-    }
-
-    function handleConstructedClickBack(ev) {
-        if (answerShown) return;
-        ev.preventDefault();
-        const target = ev.target.closest('.word');
-        if (target && target.parentElement.id === "constructed-result") {
-            removeAllFeedbackClasses();
-            returnToBankOnBack(target);
-        }
-    }
-
-    function handleTouchStartBack(ev) {
-        if (answerShown || !ev.target.closest('.word')) return;
-        touchStartTimeBack = Date.now();
-        // ev.preventDefault(); // Allow scrolling if not a quick tap
-    }
-
-    function handleTouchEndBack(ev) {
-        if (answerShown) return;
-        const target = ev.target.closest('.word');
-        if (!target) return;
-
-        const touchDuration = Date.now() - touchStartTimeBack;
-
-        if (touchDuration < 250) { // Threshold for tap
-            ev.preventDefault(); // Prevent click event if it was a tap
-            removeAllFeedbackClasses();
-            if (target.parentElement.id === "word-bank-back" && !target.classList.contains('inactive')) {
-                moveToConstructedOnBack(target);
-            } else if (target.parentElement.id === "constructed-result") {
-                returnToBankOnBack(target);
-            }
-        }
-        // If it's a longer touch, it might be a drag, which is handled by drag events.
-    }
-
-    // --- Core Logic Functions ---
-    function displayExplanation() {
-        const explanationTextEl = document.getElementById("explanation-text");
-        const explanationArea = document.getElementById("explanation-area");
-        const explanation = localStorage.getItem("explanation");
-
-        // Check if explanation is a valid non-empty string or 'null'/'undefined' string
-        if (explanation && explanation.trim() !== "" && explanation.trim().toLowerCase() !== "null" && explanation.trim().toLowerCase() !== "undefined") {
-            explanationTextEl.innerHTML = explanation.replace(/\n/g, '<br>');
-            explanationArea.classList.remove("hidden");
-        } else {
-            explanationArea.classList.add("hidden");
-        }
-    }
-
-    function checkAnswer() {
-        if (answerShown) return;
-        removeAllFeedbackClasses();
-
-        const userConstructedItems = Array.from(constructedContainer.children);
-        const currentUserTimeline = userConstructedItems.map(el => el.textContent.trim());
-
-        // Feedback logic
-        currentUserTimeline.forEach((wordText, index) => {
-            const wordDiv = userConstructedItems[index];
-            if (wordDiv) { // Ensure wordDiv exists
-                if (index < correctTimeline.length && wordText === correctTimeline[index]) {
-                    wordDiv.classList.add("correct-position");
-                } else if (correctTimeline.includes(wordText)) {
-                    wordDiv.classList.add("wrong-position"); // This will now be red due to CSS change
-                } else {
-                    wordDiv.classList.add("extra-item"); // This is already red
-                }
-            }
-        });
-
-        // Highlight missing correct items if any - (No visual change for missing items)
-        // correctTimeline.forEach(correctWord => {
-        //     if (!currentUserTimeline.includes(correctWord)) {
-        //         // Add logic here if you want to indicate missing items visually
-        //     }
-        // });
-
-        displayExplanation();
-    }
-
-    function showAnswer() {
-        answerShown = true;
-        removeAllFeedbackClasses();
-        constructedContainer.innerHTML = ''; // Clear user's attempt
-        wordBankContainer.innerHTML = ''; // Clear word bank
-        wordBankSection.classList.add('hidden'); // Hide word bank section
-
-        if (!correctTimeline || correctTimeline.length === 0) {
-            const msgDiv = document.createElement('div');
-            msgDiv.textContent = "No correct answer defined for this card.";
-            msgDiv.style.textAlign = "center";
-            msgDiv.style.padding = "10px";
-            constructedContainer.appendChild(msgDiv);
-        } else {
-            correctTimeline.forEach(wordText => {
-                const wordDiv = document.createElement("div");
-                wordDiv.className = "word static-answer correct-position"; // Apply static and correct styles
-                wordDiv.textContent = wordText;
-                constructedContainer.appendChild(wordDiv);
-            });
-        }
-        checkBtn.disabled = true;
-        showBtn.disabled = true;
-        displayExplanation();
-    }
-
-    function populateWordBankBack() {
-        wordBankContainer.innerHTML = '';
-        allWordsForBank.forEach((word, index) => {
-            const div = document.createElement("div");
-            div.className = "word draggable-active";
-            div.textContent = word;
-            // Use a unique ID that starts with 'bank-back-' for easy identification
-            div.id = "bank-back-" + index + "-" + Math.random().toString(16).slice(2);
-            div.draggable = true;
-
-            div.addEventListener("dragstart", dragBack);
-            div.addEventListener("click", handleBankClickBack);
-            div.addEventListener("touchstart", handleTouchStartBack, { passive: false });
-            div.addEventListener("touchend", handleTouchEndBack);
-            wordBankContainer.appendChild(div);
-        });
-    }
-
-    function populateConstructedFromLocalStorage() {
-        constructedContainer.innerHTML = '';
-        const userTimelineRaw = localStorage.getItem("sentenceProgress");
-        let userTimelineArray = [];
-
-        if (userTimelineRaw) {
-            try {
-                // Attempt to parse JSON (new format: ["a","b","c"])
-                const parsed = JSON.parse(userTimelineRaw);
-                if (Array.isArray(parsed)) {
-                    userTimelineArray = parsed;
-                } else {
-                    // Fallback for non-array JSON (e.g., old string 'null' stringified)
-                    console.warn("localStorage 'sentenceProgress' was parsed as JSON but not an array, attempting old format parse.");
-                    userTimelineArray = String(userTimelineRaw).split("|||").filter(s => s.trim() !== "");
-                }
-            } catch (e) {
-                // Fallback for old '|||' delimited string format
-                console.warn("Failed to parse 'sentenceProgress' as JSON, falling back to old format.", e);
-                userTimelineArray = userTimelineRaw.split("|||").filter(s => s.trim() !== "");
-            }
-        }
-
-        userTimelineArray.forEach(wordText => {
-            // Find the original word in the bank that is not yet 'inactive'
-            // This is crucial to ensure we link back to the correct original element
-            let originalBankElement = Array.from(wordBankContainer.children).find(el =>
-                el.textContent.trim() === wordText && !el.classList.contains('inactive') && el.id.startsWith('bank-back-')
-            );
-
-            if (originalBankElement) {
-                moveToConstructedOnBack(originalBankElement); // This will clone and deactivate original
-            } else {
-                // This handles cases where a word from LS might not be found in the current word bank.
-                // E.g., if a word was in the constructed list but was later removed from the correct/extra list,
-                // or if there's a duplicate and all originals are already 'inactive'.
-                // Create a temporary element, but it won't link back to a bank item for reactivation.
-                const div = document.createElement("div");
-                div.className = "word draggable-active extra-item"; // Mark as extra if it's not found
-                div.textContent = wordText;
-                div.id = "constructed-orphan-" + Date.now() + Math.random().toString(16).slice(2);
-                div.draggable = true;
-                div.dataset.originalBankId = "orphan-" + div.id; // Mark as an orphan, won't reactivate a bank item
-
-                div.addEventListener("dragstart", dragBack);
-                div.addEventListener("click", handleConstructedClickBack);
-                div.addEventListener("touchstart", handleTouchStartBack, { passive: false });
-                div.addEventListener("touchend", handleTouchEndBack);
-                constructedContainer.appendChild(div);
-            }
-        });
-        removeAllFeedbackClasses(); // Ensure no feedback on initial load from LS
-    }
-
-
-    function initializeBackView() {
-        const correctOrderRaw = localStorage.getItem("correctOrder");
-        const extrasRaw = localStorage.getItem("rawExtras"); // This is still a raw string
-
-        // Parse correctTimeline from localStorage as an array
-        if (correctOrderRaw) {
-            try {
-                const parsedCorrect = JSON.parse(correctOrderRaw);
-                if (Array.isArray(parsedCorrect)) {
-                    correctTimeline = parsedCorrect;
-                } else {
-                    // Fallback for non-array JSON or if old string was incorrectly stringified
-                    console.warn("localStorage 'correctOrder' was parsed as JSON but not an array, attempting old format parse.");
-                    correctTimeline = parsePipedField(correctOrderRaw); // Use old parser
-                }
-            } catch (e) {
-                // Fallback if it's the old '|||' delimited string format
-                console.warn("Failed to parse 'correctOrder' as JSON, falling back to old format.", e);
-                correctTimeline = parsePipedField(correctOrderRaw);
-            }
-        } else {
-             correctTimeline = [];
-        }
-
-
-        const extras = parsePipedField(extrasRaw); // This remains parsed from raw string
-        allWordsForBank = shuffle([...correctTimeline, ...extras]);
-
-        populateWordBankBack();
-        populateConstructedFromLocalStorage();
-
-        checkBtn.addEventListener("click", checkAnswer);
-        showBtn.addEventListener("click", showAnswer);
-
-        checkAnswer(); // Perform initial check after loading progress
-    }
-
-    // --- Initialize ---
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeBackView);
-    } else {
-        initializeBackView();
-    }
-
-})(); // End of IIFE
-</script>
+        })(); // End of IIFE
+    </script>
 
 </body>
+
 </html>

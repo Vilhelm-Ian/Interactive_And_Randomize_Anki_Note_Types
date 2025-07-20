@@ -1,26 +1,26 @@
 <div id="warning" class="warning">
-<button class="close" id="close">X</button>
-<h1>There is a new version of the note type</h1>
-<a href="https://ankiweb.net/shared/info/171015247">Click Here To download it</a>
-<p>If you don't want to be informed about updates click here: <input id="check" type="checkbox"></input></p>
+    <button class="close" id="close">X</button>
+    <h1>There is a new version of the note type</h1>
+    <a href="https://ankiweb.net/shared/info/171015247">Click Here To download it</a>
+    <p>If you don't want to be informed about updates click here: <input id="check" type="checkbox"></input></p>
 </div>
 
 <p id="sentence-field" style="display:none;">{{Sentence}}</p>
 <p id="additional-words-field" style="display:none;">{{Aditional Words}}</p>
 
-    <div class="game-container">
-        <h1>{{Title}}</h1>
-        <div id="sentence"></div>
-        <div id="words"></div>
-        <button id="checkButton">Check Answers</button>
-    </div>
+<div class="game-container">
+    <h1>{{Title}}</h1>
+    <div id="sentence"></div>
+    <div id="words"></div>
+    <button id="checkButton">Check Answers</button>
+</div>
 
-    <script>
+<script>
     function run() {
         const VERSION = 1.1
-checkVersion()
-document.getElementById("check").addEventListener("click", ()=>noMoreUpdates())
-document.getElementById("close").addEventListener("click", ()=>close())
+        checkVersion()
+        document.getElementById("check").addEventListener("click", () => noMoreUpdates())
+        document.getElementById("close").addEventListener("click", () => close())
 
 
         const isBack = document.getElementById("back") != null
@@ -28,7 +28,7 @@ document.getElementById("close").addEventListener("click", ()=>close())
         const sentence = document.getElementById('sentence');
         const wordsContainer = document.getElementById('words');
         const checkButton = document.getElementById('checkButton');
-        const additionalWords = document.getElementById('additional-words-field').innerText.split("|").map(word=>word.trim());
+        const additionalWords = document.getElementById('additional-words-field').innerText.split("|").map(word => word.trim());
         let blanks = [];
         let words = [];
 
@@ -49,20 +49,20 @@ document.getElementById("close").addEventListener("click", ()=>close())
 
             sentence.innerHTML = html;
             blanks = Array.from(sentence.getElementsByClassName('blank'));
-            
+
             updateWordBank();
-            if(!isBack) {
-               localStorage.removeItem("blanks")
-               document.getElementById("checkButton").style["display"] = "none"
+            if (!isBack) {
+                localStorage.removeItem("blanks")
+                document.getElementById("checkButton").style["display"] = "none"
             } else {
-               localStorage.getItem("blanks").split(",").forEach((blank,index)=> blanks[index].textContent = blank)
+                localStorage.getItem("blanks").split(",").forEach((blank, index) => blanks[index].textContent = blank)
             }
-            
+
             wordsContainer.addEventListener('click', handleWordClick);
             sentence.addEventListener('click', handleBlankClick);
             checkButton.addEventListener('click', checkAnswers);
-            if(isBack) checkAnswers()
-            
+            if (isBack) checkAnswers()
+
         }
 
         function updateWordBank() {
@@ -74,13 +74,13 @@ document.getElementById("close").addEventListener("click", ()=>close())
             if (event.target.classList.contains('word')) {
                 const word = event.target.textContent;
                 const emptyBlank = blanks.find(blank => !blank.textContent);
-                
+
                 if (emptyBlank) {
                     emptyBlank.textContent = word;
                     event.target.style.display = 'none';
                     words = words.filter(w => w !== word);
                     localStorage.setItem("words", words)
-                    localStorage.setItem("blanks", blanks.map(blank=>blank.textContent))
+                    localStorage.setItem("blanks", blanks.map(blank => blank.textContent))
                 }
             }
         }
@@ -93,7 +93,7 @@ document.getElementById("close").addEventListener("click", ()=>close())
                 words.push(word);
                 updateWordBank();
                 localStorage.setItem("words", words)
-                localStorage.setItem("blanks", blanks.map(blank=>blank.textContent))
+                localStorage.setItem("blanks", blanks.map(blank => blank.textContent))
             }
         }
 
@@ -105,29 +105,29 @@ document.getElementById("close").addEventListener("click", ()=>close())
                 blank.classList.add(isCorrect ? 'correct' : 'incorrect');
                 allCorrect = allCorrect && isCorrect;
             });
-            
+
         }
 
         initializeGame();
         async function checkVersion() {
-let updates = localStorage.getItem("updates")
-let close = sessionStorage.getItem("close")
-if(updates || close) return
-let res = await fetch("https://raw.githubusercontent.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/refs/heads/main/VERSION")
-let data = await res.text()
-if(VERSION < data) document.getElementById("warning").style.display = "block"
-}
+            let updates = localStorage.getItem("updates")
+            let close = sessionStorage.getItem("close")
+            if (updates || close) return
+            let res = await fetch("https://raw.githubusercontent.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/refs/heads/main/VERSION")
+            let data = await res.text()
+            if (VERSION < data) document.getElementById("warning").style.display = "block"
+        }
 
-function close() {
-document.getElementById("warning").style.display = "none"
-sessionStorage.setItem("close", true)
-}
+        function close() {
+            document.getElementById("warning").style.display = "none"
+            sessionStorage.setItem("close", true)
+        }
 
 
-function noMoreUpdates() {
-  document.getElementById("warning").style.display = "none"
-  localStorage.setItem("updates", true)
-}
-       }
-      run()
-     </script>
+        function noMoreUpdates() {
+            document.getElementById("warning").style.display = "none"
+            localStorage.setItem("updates", true)
+        }
+    }
+    run()
+</script>

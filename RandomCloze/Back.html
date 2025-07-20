@@ -1,53 +1,53 @@
 <!-- load fonts -->
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
 
-.answer-feedback {
-  margin-top: 20px;
-  padding: 15px;
-  border-radius: 8px;
-  background-color: #f8f9fa;
-  border: 1px solid #e5e7eb;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
   .answer-feedback {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #e5e7eb;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .answer-feedback {
+      background-color: #1f2937;
+      border-color: #374151;
+      color: #f9fafb;
+    }
+  }
+
+  /* Anki night mode support */
+  .night_mode .answer-feedback {
     background-color: #1f2937;
     border-color: #374151;
     color: #f9fafb;
   }
-}
 
-/* Anki night mode support */
-.night_mode .answer-feedback {
-  background-color: #1f2937;
-  border-color: #374151;
-  color: #f9fafb;
-}
+  .correct-char {
+    color: #16a34a;
+    font-weight: bold;
+  }
 
-.correct-char {
-  color: #16a34a;
-  font-weight: bold;
-}
+  .incorrect-char {
+    color: #dc2626;
+    font-weight: bold;
+    text-decoration: line-through;
+  }
 
-.incorrect-char {
-  color: #dc2626;
-  font-weight: bold;
-  text-decoration: line-through;
-}
+  .answer-row {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: baseline;
+  }
 
-.answer-row {
-  display: flex;
-  margin-bottom: 10px;
-  align-items: baseline;
-}
-
-.answer-label {
-  min-width: 120px;
-  font-weight: bold;
-}
+  .answer-label {
+    min-width: 120px;
+    font-weight: bold;
+  }
 </style>
 
 <div class="prettify-flashcard">
@@ -59,7 +59,7 @@
       <div id="target"></div>
     </div>
   </div>
-  
+
   <div class="prettify-divider prettify-divider--answer"></div>
   <div class="answer-feedback">
     <div class="answer-row">
@@ -71,102 +71,121 @@
       <div id="correctAnswer"></div>
     </div>
   </div>
-  
+
   {{#Back Extra}}
   <div class="prettify-divider prettify-divider--answer"></div>
-  <div class="center-text"><div class="prettify-field prettify-field--back">{{Back Extra}}</div></div>
+  <div class="center-text">
+    <div class="prettify-field prettify-field--back">{{Back Extra}}</div>
+  </div>
   {{/Back Extra}}
 
   <div class="row">
     {{#Tags}}
     <div class="prettify-tags">{{clickable:Tags}}</div>
     {{/Tags}}
-    <div class="reportIconContainer"><a href="https://github.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/issues/new"><svg width="20px" height="20px" fill="#4B5563" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 489.7 489.7" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g><path d="M245,44.95c-134.9,0-245,81.7-245,182c0,41.6,19.8,82.8,55.6,115.1c3.1,2.7,3.9,7,2.7,10.5l-33.8,92.2l98.8-56 c2.7-1.6,5.4-1.6,8.2-0.8c35.4,13.6,73.5,20.6,113.2,20.6c134.9,0,245-81.7,245-182S379.9,44.95,245,44.95z M117.1,267.75 c-21.8,0-39.7-17.9-39.7-39.7s17.9-39.7,39.7-39.7s39.7,17.9,39.7,39.7C156.3,250.25,138.8,267.75,117.1,267.75z M245,267.75 c-21.8,0-39.7-17.9-39.7-39.7s17.9-39.7,39.7-39.7s39.7,17.9,39.7,39.7C284.7,250.25,266.8,267.75,245,267.75z M372.9,267.75 c-21.8,0-39.7-17.9-39.7-39.7s17.9-39.7,39.7-39.7s39.7,17.9,39.7,39.7C412.6,250.25,395.1,267.75,372.9,267.75z"></path> </g> </g> </g> </g></svg></a></div>
+    <div class="reportIconContainer"><a
+        href="https://github.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/issues/new"><svg width="20px"
+          height="20px" fill="#4B5563" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 489.7 489.7" xml:space="preserve">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <g>
+              <g>
+                <g>
+                  <path
+                    d="M245,44.95c-134.9,0-245,81.7-245,182c0,41.6,19.8,82.8,55.6,115.1c3.1,2.7,3.9,7,2.7,10.5l-33.8,92.2l98.8-56 c2.7-1.6,5.4-1.6,8.2-0.8c35.4,13.6,73.5,20.6,113.2,20.6c134.9,0,245-81.7,245-182S379.9,44.95,245,44.95z M117.1,267.75 c-21.8,0-39.7-17.9-39.7-39.7s17.9-39.7,39.7-39.7s39.7,17.9,39.7,39.7C156.3,250.25,138.8,267.75,117.1,267.75z M245,267.75 c-21.8,0-39.7-17.9-39.7-39.7s17.9-39.7,39.7-39.7s39.7,17.9,39.7,39.7C284.7,250.25,266.8,267.75,245,267.75z M372.9,267.75 c-21.8,0-39.7-17.9-39.7-39.7s17.9-39.7,39.7-39.7s39.7,17.9,39.7,39.7C412.6,250.25,395.1,267.75,372.9,267.75z">
+                  </path>
+                </g>
+              </g>
+            </g>
+          </g>
+        </svg></a></div>
   </div>
 </div>
 
 <script>
-// Split hierarchical tags
-var tagsContainerEl = document.querySelectorAll('.prettify-tags > *');
-if (tagsContainerEl.length > 0) {
-  var tags = [];
-  tagsContainerEl.forEach((tagEl) => {
-    tagEl.classList.add('prettify-tag');
-    tags.push(tagEl.innerHTML);
-    tags.forEach((tag) => {
-      var childTag = tag.split('::').filter(Boolean);
-      tagEl.innerHTML = childTag[childTag.length - 1].trim();
+  // Split hierarchical tags
+  var tagsContainerEl = document.querySelectorAll('.prettify-tags > *');
+  if (tagsContainerEl.length > 0) {
+    var tags = [];
+    tagsContainerEl.forEach((tagEl) => {
+      tagEl.classList.add('prettify-tag');
+      tags.push(tagEl.innerHTML);
+      tags.forEach((tag) => {
+        var childTag = tag.split('::').filter(Boolean);
+        tagEl.innerHTML = childTag[childTag.length - 1].trim();
+      });
     });
-  });
-} else {
-  tagsContainerEl = document.querySelector('.prettify-tags');
-  if (tagsContainerEl) {
-    var tags = tagsContainerEl.innerHTML.split(' ').filter(Boolean);
-    var html = '';
-    tags.forEach((tag) => {
-      var childTag = tag.split('::').filter(Boolean);
-      html +=
-        "<span class='prettify-tag'>" +
-        childTag[childTag.length - 1] +
-        '</span>';
-    });
-    tagsContainerEl.innerHTML = html;
-  }
-}
-
-// Breadcrumbs to current deck - add null check
-var deckEl = document.querySelector('.prettify-deck');
-if (deckEl) {
-  var subDecks = deckEl.innerHTML.split('::').filter(Boolean);
-  html = [];
-  subDecks.forEach((subDeck) => {
-    html.push("<span class='prettify-subdeck'>" + subDeck + '</span>');
-  });
-  deckEl.innerHTML = html.join('&nbsp;/&nbsp;');
-}
-
-// New functionality for answer comparison
-(() => {
-  const hiddenElement = document.getElementById("hidden");
-  if (!hiddenElement) return;
-  
-  const clozes = hiddenElement.innerHTML.split("|");
-  const rng = localStorage.getItem("rng");
-  const correctAnswer = clozes[rng];
-  
-  // Extract the cloze word from the rendered HTML
-  let clozeWord = '';
-  
-  // Look for the cloze span in the HTML
-  const clozeMatch = correctAnswer.match(/<span class="cloze"[^>]*>([^<]+)<\/span>/);
-  if (clozeMatch) {
-    clozeWord = clozeMatch[1].trim();
   } else {
-    // Fallback: remove all HTML tags and use the clean text
-    clozeWord = correctAnswer.replace(/<[^>]*>/g, '').trim();
-  }
-  
-  const userInput = localStorage.getItem("cloze") || '';
-  
-  const targetElement = document.getElementById("target");
-  if (targetElement) targetElement.innerHTML = clozes[rng];
-  
-  const correctAnswerElement = document.getElementById("correctAnswer");
-  if (correctAnswerElement) correctAnswerElement.textContent = clozeWord;
-  
-  // Create colored input display
-  const userInputDisplay = document.getElementById("userInputDisplay");
-  if (userInputDisplay) {
-    let coloredInput = '';
-    for (let i = 0; i < userInput.length; i++) {
-      if (i < clozeWord.length && userInput[i] === clozeWord[i]) {
-        coloredInput += `<span class="correct-char">${userInput[i]}</span>`;
-      } else {
-        coloredInput += `<span class="incorrect-char">${userInput[i]}</span>`;
-      }
+    tagsContainerEl = document.querySelector('.prettify-tags');
+    if (tagsContainerEl) {
+      var tags = tagsContainerEl.innerHTML.split(' ').filter(Boolean);
+      var html = '';
+      tags.forEach((tag) => {
+        var childTag = tag.split('::').filter(Boolean);
+        html +=
+          "<span class='prettify-tag'>" +
+          childTag[childTag.length - 1] +
+          '</span>';
+      });
+      tagsContainerEl.innerHTML = html;
     }
-    
-    userInputDisplay.innerHTML = coloredInput || '<span style="color:#999">(no answer given)</span>';
   }
-})();
+
+  // Breadcrumbs to current deck - add null check
+  var deckEl = document.querySelector('.prettify-deck');
+  if (deckEl) {
+    var subDecks = deckEl.innerHTML.split('::').filter(Boolean);
+    html = [];
+    subDecks.forEach((subDeck) => {
+      html.push("<span class='prettify-subdeck'>" + subDeck + '</span>');
+    });
+    deckEl.innerHTML = html.join('&nbsp;/&nbsp;');
+  }
+
+  // New functionality for answer comparison
+  (() => {
+    const hiddenElement = document.getElementById("hidden");
+    if (!hiddenElement) return;
+
+    const clozes = hiddenElement.innerHTML.split("|");
+    const rng = localStorage.getItem("rng");
+    const correctAnswer = clozes[rng];
+
+    // Extract the cloze word from the rendered HTML
+    let clozeWord = '';
+
+    // Look for the cloze span in the HTML
+    const clozeMatch = correctAnswer.match(/<span class="cloze"[^>]*>([^<]+)<\/span>/);
+    if (clozeMatch) {
+      clozeWord = clozeMatch[1].trim();
+    } else {
+      // Fallback: remove all HTML tags and use the clean text
+      clozeWord = correctAnswer.replace(/<[^>]*>/g, '').trim();
+    }
+
+    const userInput = localStorage.getItem("cloze") || '';
+
+    const targetElement = document.getElementById("target");
+    if (targetElement) targetElement.innerHTML = clozes[rng];
+
+    const correctAnswerElement = document.getElementById("correctAnswer");
+    if (correctAnswerElement) correctAnswerElement.textContent = clozeWord;
+
+    // Create colored input display
+    const userInputDisplay = document.getElementById("userInputDisplay");
+    if (userInputDisplay) {
+      let coloredInput = '';
+      for (let i = 0; i < userInput.length; i++) {
+        if (i < clozeWord.length && userInput[i] === clozeWord[i]) {
+          coloredInput += `<span class="correct-char">${userInput[i]}</span>`;
+        } else {
+          coloredInput += `<span class="incorrect-char">${userInput[i]}</span>`;
+        }
+      }
+
+      userInputDisplay.innerHTML = coloredInput || '<span style="color:#999">(no answer given)</span>';
+    }
+  })();
 </script>

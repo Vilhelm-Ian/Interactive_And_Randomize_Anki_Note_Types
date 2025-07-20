@@ -1,8 +1,8 @@
 <div id="warning" class="warning">
-<button class="close" id="close">X</button>
-<h1>There is a new version of the note type</h1>
-<a href="https://ankiweb.net/shared/info/171015247">Click Here To download it</a>
-<p>If you don't want to be informed about updates click here: <input id="check" type="checkbox"></input></p>
+  <button class="close" id="close">X</button>
+  <h1>There is a new version of the note type</h1>
+  <a href="https://ankiweb.net/shared/info/171015247">Click Here To download it</a>
+  <p>If you don't want to be informed about updates click here: <input id="check" type="checkbox"></input></p>
 </div>
 <div id="error"></div>
 <div id="hidden">{{Front}}</div>
@@ -10,42 +10,42 @@
 <div id="questionHidden" class="hidden">{{Back}}</div>
 
 <script>
-(()=>{
-const VERSION = 1.0
-checkVersion()
-document.getElementById("check").addEventListener("click", ()=>noMoreUpdates())
-document.getElementById("close").addEventListener("click", ()=>close())
+  (() => {
+    const VERSION = 1.0
+    checkVersion()
+    document.getElementById("check").addEventListener("click", () => noMoreUpdates())
+    document.getElementById("close").addEventListener("click", () => close())
 
-let questions = document.getElementById("hidden").innerHTML.split("|")
-let answers = document.getElementById("questionHidden").innerHTML.split("|")
-console.log(questions,answers)
-if(questions.length !== answers.length) {
-  document.getElementById("error").innerHTML = "Number of answers and questions is not the same"
-}
+    let questions = document.getElementById("hidden").innerHTML.split("|")
+    let answers = document.getElementById("questionHidden").innerHTML.split("|")
+    console.log(questions, answers)
+    if (questions.length !== answers.length) {
+      document.getElementById("error").innerHTML = "Number of answers and questions is not the same"
+    }
 
-let rng = Math.floor(Math.random() * questions.length)
-localStorage.setItem("rng", rng)
-document.getElementById("target").innerHTML = questions[rng]
+    let rng = Math.floor(Math.random() * questions.length)
+    localStorage.setItem("rng", rng)
+    document.getElementById("target").innerHTML = questions[rng]
 
-async function checkVersion() {
-let updates = localStorage.getItem("updates")
-let close = sessionStorage.getItem("close")
-console.log(close)
-if(updates || close) return
-let res = await fetch("https://raw.githubusercontent.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/refs/heads/main/VERSION")
-let data = await res.text()
-if(VERSION < data) document.getElementById("warning").style.display = "block"
-}
+    async function checkVersion() {
+      let updates = localStorage.getItem("updates")
+      let close = sessionStorage.getItem("close")
+      console.log(close)
+      if (updates || close) return
+      let res = await fetch("https://raw.githubusercontent.com/Vilhelm-Ian/Interactive_And_Randomize_Anki_Note_Types/refs/heads/main/VERSION")
+      let data = await res.text()
+      if (VERSION < data) document.getElementById("warning").style.display = "block"
+    }
 
-function noMoreUpdates() {
-  document.getElementById("warning").style.display = "none"
-  localStorage.setItem("updates", true)
-}
+    function noMoreUpdates() {
+      document.getElementById("warning").style.display = "none"
+      localStorage.setItem("updates", true)
+    }
 
-function close() {
-document.getElementById("warning").style.display = "none"
-sessionStorage.setItem("close", true)
-}
+    function close() {
+      document.getElementById("warning").style.display = "none"
+      sessionStorage.setItem("close", true)
+    }
 
-})()
+  })()
 </script>
