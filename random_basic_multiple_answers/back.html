@@ -5,11 +5,11 @@
 <div id="question"></div>
 
 <script>
-(()=>{
-let questions = document.getElementById("hidden").innerHTML.split("|")
-let answers = document.getElementById("questionHidden").innerHTML.split("|")
-let rng = localStorage.getItem("rng")
-document.getElementById("target").innerHTML = questions[rng]
-document.getElementById("question").innerHTML = answers[rng]
-})()
+    (() => {
+        let questions = document.getElementById("hidden").innerHTML.split("|")
+        let answers = document.getElementById("questionHidden").innerHTML.split("|")
+        let rng = localStorage.getItem("rng")
+        document.getElementById("target").innerHTML = questions[rng]
+        document.getElementById("question").innerHTML = answers[rng]
+    })()
 </script>

@@ -147,32 +147,32 @@
         this.renderGame();
         this.setupInitialState();
         await this.checkVersion();
-        if(this.isBack) {
+        if (this.isBack) {
           let explanations = document.getElementById("explanationsList").innerHTML.split("|").filter(exp => exp != "")
-          let indexes = this.shuffledFirstList.map(element => this.firstList.findIndex(ele=> ele==element))
+          let indexes = this.shuffledFirstList.map(element => this.firstList.findIndex(ele => ele == element))
           let orderedExplanations = []
-          indexes.forEach(index=> orderedExplanations.push(explanations[index]))
+          indexes.forEach(index => orderedExplanations.push(explanations[index]))
           orderedExplanations.length = explanations.length
           let orderedList = this.renderOrderedList(orderedExplanations);
           this.elements.explanations.appendChild(orderedList)
         }
       }
-    renderOrderedList(items) {
-    if (!Array.isArray(items)) {
-        console.error("Input must be an array of strings.");
-        return;
-    }
-    
-    const ol = document.createElement("ol");
-    
-    items.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        ol.appendChild(li);
-    });
-    
-    return ol;
-}
+      renderOrderedList(items) {
+        if (!Array.isArray(items)) {
+          console.error("Input must be an array of strings.");
+          return;
+        }
+
+        const ol = document.createElement("ol");
+
+        items.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          ol.appendChild(li);
+        });
+
+        return ol;
+      }
 
       renderGame() {
         this.elements.wordList.style['grid-template-rows'] =
@@ -307,48 +307,48 @@
         this.elements.result.style.color = '';
       }
 
- check() {
-  const matchedWords = Array.from(this.elements.wordList.children);
-  const firstListElement = matchedWords.filter(element => element.className === 'word');
-  const secondListElement = matchedWords.filter(element => element.className === 'match-slot');
+      check() {
+        const matchedWords = Array.from(this.elements.wordList.children);
+        const firstListElement = matchedWords.filter(element => element.className === 'word');
+        const secondListElement = matchedWords.filter(element => element.className === 'match-slot');
 
-  let isCorrect = true;
+        let isCorrect = true;
 
-  for (let i = 0; i < this.shuffledFirstList.length; i++) {
-    const expectedWord = this.map.get(this.shuffledFirstList[i]);
-    
-    // Extract src attributes from images in both elements
-    const getImgSrc = (html) => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const images = doc.querySelectorAll('img');
-      return Array.from(images).map(img => img.getAttribute('src'));
-    };
-    
-    // Get image sources from both expected and actual answers
-    const expectedImgSrcs = getImgSrc(expectedWord);
-    const actualImgSrcs = getImgSrc(secondListElement[i].innerHTML);
-    
-    // Compare text content or image sources
-    let isWordCorrect = false;
-    
-    if (expectedImgSrcs.length > 0 || actualImgSrcs.length > 0) {
-      // If there are images, compare image sources
-      isWordCorrect = JSON.stringify(expectedImgSrcs) === JSON.stringify(actualImgSrcs);
-    } else {
-      // If no images, compare the whole content
-      isWordCorrect = secondListElement[i].innerHTML === expectedWord;
-    }
+        for (let i = 0; i < this.shuffledFirstList.length; i++) {
+          const expectedWord = this.map.get(this.shuffledFirstList[i]);
 
-    secondListElement[i].style.background = isWordCorrect ? '#89e219' : '#ff4b4b';
-    secondListElement[i].style.color = 'white';
-    secondListElement[i].style['font-weight'] = 'bold';
+          // Extract src attributes from images in both elements
+          const getImgSrc = (html) => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const images = doc.querySelectorAll('img');
+            return Array.from(images).map(img => img.getAttribute('src'));
+          };
 
-    if (!isWordCorrect) isCorrect = false;
-  }
+          // Get image sources from both expected and actual answers
+          const expectedImgSrcs = getImgSrc(expectedWord);
+          const actualImgSrcs = getImgSrc(secondListElement[i].innerHTML);
 
-  this.showResult(isCorrect);
-}
+          // Compare text content or image sources
+          let isWordCorrect = false;
+
+          if (expectedImgSrcs.length > 0 || actualImgSrcs.length > 0) {
+            // If there are images, compare image sources
+            isWordCorrect = JSON.stringify(expectedImgSrcs) === JSON.stringify(actualImgSrcs);
+          } else {
+            // If no images, compare the whole content
+            isWordCorrect = secondListElement[i].innerHTML === expectedWord;
+          }
+
+          secondListElement[i].style.background = isWordCorrect ? '#89e219' : '#ff4b4b';
+          secondListElement[i].style.color = 'white';
+          secondListElement[i].style['font-weight'] = 'bold';
+
+          if (!isWordCorrect) isCorrect = false;
+        }
+
+        this.showResult(isCorrect);
+      }
 
       showResult(isCorrect) {
         this.elements.result.textContent = isCorrect
@@ -360,10 +360,10 @@
       // Utility methods
       addExtraWords(keys, values) {
         let extraWords = values.slice(keys.length);
-	    values.length = keys.length
-		console.log({values}) // 7 items
-		console.log({keys}) // 5 items
-		console.log({extraWords}) // empty
+        values.length = keys.length
+        console.log({ values }) // 7 items
+        console.log({ keys }) // 5 items
+        console.log({ extraWords }) // empty
 
         for (let i = 0; i < 2; i++) {
           const extraWordIndex = Math.floor(Math.random() * extraWords.length);

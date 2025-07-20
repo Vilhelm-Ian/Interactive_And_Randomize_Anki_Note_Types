@@ -46,23 +46,28 @@ body.nightMode {
     --clr-text-secondary: #b0b0b0;
     --clr-border-light: #555;
     --clr-border-medium: #777;
-    --clr-border-accent: #4a90e2; /* Adjusted blue for dark bg */
-    --clr-word-bg: #3a5f80; /* Darker blue */
+    /* Adjusted blue for dark bg */
+    --clr-border-accent: #4a90e2;
+    /* Darker blue */
+    --clr-word-bg: #3a5f80;
     --clr-word-border: var(--clr-border-accent);
     --clr-word-dragging-bg: #2a4f70;
     --clr-column-header-bg: #4f4f4f;
     --clr-column-bg: #444;
     --clr-drop-zone-hover-bg: #4a4a5a;
     --clr-drop-zone-hover-border: var(--clr-border-accent);
-    --clr-button-bg: #4cae4c; /* Keep button colors vibrant */
+    /* Keep button colors vibrant */
+    --clr-button-bg: #4cae4c;
     --clr-button-text: white;
     --clr-button-hover-bg: #5cb85c;
     --clr-correct-bg: #3a6a3a;
     --clr-correct-border: var(--clr-button-hover-bg);
     --clr-incorrect-bg: #7a3a3a;
     --clr-incorrect-border: #f48a86;
-    --clr-results-success: #77dd77; /* Lighter green */
-    --clr-results-error: #ff6961;  /* Lighter red */
+    /* Lighter green */
+    --clr-results-success: #77dd77;
+    /* Lighter red */
+    --clr-results-error: #ff6961;
     --clr-results-info: var(--clr-text-secondary);
 
     /* Scrollbar colors for dark mode */
@@ -77,11 +82,14 @@ body {
     line-height: 1.6;
     padding: 20px;
     background-color: var(--clr-bg);
-    color: var(--clr-text-primary); /* Set default text color */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme transition */
+    /* Set default text color */
+    color: var(--clr-text-primary);
+    /* Smooth theme transition */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1, h2 {
+h1,
+h2 {
     text-align: center;
     color: var(--clr-text-primary);
 }
@@ -120,7 +128,8 @@ h1, h2 {
 .word-item {
     background-color: var(--clr-word-bg);
     border: 1px solid var(--clr-word-border);
-    color: var(--clr-text-primary); /* Ensure text is readable */
+    /* Ensure text is readable */
+    color: var(--clr-text-primary);
     padding: 8px 12px;
     border-radius: 4px;
     cursor: grab;
@@ -143,8 +152,10 @@ h1, h2 {
 
 /* --- Columns Container (Using Grid) --- */
 .columns-container {
-    /* display: flex; */ /* Replaced with grid */
-    /* justify-content: space-around; */ /* Not needed for grid this way */
+    /* Replaced with grid */
+    /* display: flex; */
+    /* Not needed for grid this way */
+    /* justify-content: space-around; */
     display: grid;
     /*
      * auto-fit: Fit as many columns as possible in the available width.
@@ -153,12 +164,14 @@ h1, h2 {
      *                       Adjust 240px based on desired minimum column width.
      */
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px; /* Space between grid items (columns) */
+    /* Space between grid items (columns) */
+    gap: 20px;
     margin-bottom: 20px;
 }
 
 .category-column {
-    /* flex: 1; */ /* Not needed, grid handles sizing */
+    /* Not needed, grid handles sizing */
+    /* flex: 1; */
     border: 1px solid var(--clr-border-light);
     background-color: var(--clr-column-bg);
     border-radius: 5px;
@@ -167,7 +180,8 @@ h1, h2 {
     flex-direction: column;
     transition: background-color 0.3s ease, border-color 0.3s ease;
     /* Ensure columns don't collapse smaller than their content minimum */
-    min-width: 0; /* Prevents grid items from overflowing strangely sometimes */
+    /* Prevents grid items from overflowing strangely sometimes */
+    min-width: 0;
 }
 
 .column-header {
@@ -190,11 +204,15 @@ h1, h2 {
     padding: 10px;
     transition: background-color 0.2s ease, border-color 0.2s ease;
     display: flex;
-    flex-direction: row; /* Words flow left-to-right first */
-    flex-wrap: wrap;     /* Then wrap to the next line */
+    /* Words flow left-to-right first */
+    flex-direction: row;
+    /* Then wrap to the next line */
+    flex-wrap: wrap;
     gap: 5px;
-    flex-grow: 1;        /* Allows zone to fill space within the column's flex layout */
-    align-content: flex-start; /* Align wrapped lines to the top */
+    /* Allows zone to fill space within the column's flex layout */
+    flex-grow: 1;
+    /* Align wrapped lines to the top */
+    align-content: flex-start;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     /* Scroll handling will be managed by media queries */
@@ -204,15 +222,20 @@ h1, h2 {
 .drop-zone.drag-over {
     background-color: var(--clr-drop-zone-hover-bg);
     border: 2px dashed var(--clr-drop-zone-hover-border);
-    padding: 9px; /* Adjust padding for border change */
+    /* Adjust padding for border change */
+    padding: 9px;
 }
 
 .button-controls {
     display: flex;
-    justify-content: center; /* Center buttons */
-    gap: 15px; /* Space between buttons */
-    margin: 20px 0; /* Vertical margin */
-    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+    /* Center buttons */
+    justify-content: center;
+    /* Space between buttons */
+    gap: 15px;
+    /* Vertical margin */
+    margin: 20px 0;
+    /* Allow buttons to wrap on small screens */
+    flex-wrap: wrap;
 }
 
 .button-controls button {
@@ -224,6 +247,7 @@ h1, h2 {
     border-radius: 5px;
     transition: background-color 0.2s ease, opacity 0.2s ease;
 }
+
 .button-controls button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -249,15 +273,20 @@ h1, h2 {
 }
 
 #show-answer-button {
-    background-color: var(--clr-button-info-bg); /* Use info color */
+    /* Use info color */
+    background-color: var(--clr-button-info-bg);
 }
+
 #show-answer-button:hover:not(:disabled) {
     background-color: var(--clr-button-info-hover-bg);
 }
 
-#check-button, #show-answer-button {
-    margin: 0; /* Remove auto margins */
-    display: inline-block; /* Needed if removing display:block */
+#check-button,
+#show-answer-button {
+    /* Remove auto margins */
+    margin: 0;
+    /* Needed if removing display:block */
+    display: inline-block;
 }
 
 
@@ -280,10 +309,18 @@ h1, h2 {
 }
 
 /* Assign specific result colors */
-#results[style*="color: green;"] { color: var(--clr-results-success) !important; }
-#results[style*="color: red;"] { color: var(--clr-results-error) !important; }
-#results[style*="color: rgb(85, 85, 85);"] /* Match the specific grey color used in JS */
-{ color: var(--clr-results-info) !important; }
+#results[style*="color: green;"] {
+    color: var(--clr-results-success) !important;
+}
+
+#results[style*="color: red;"] {
+    color: var(--clr-results-error) !important;
+}
+
+#results[style*="color: rgb(85, 85, 85);"] {
+    /* Match the specific grey color used in JS */
+    color: var(--clr-results-info) !important;
+}
 
 
 /* --- Responsive Styles --- */
@@ -298,17 +335,23 @@ h1, h2 {
 
     .columns-container {
         /* The grid layout naturally handles stacking now, no need for flex-direction: column */
-        gap: 15px; /* Can reduce gap slightly on smaller screens */
+        /* Can reduce gap slightly on smaller screens */
+        gap: 15px;
     }
 
     /* No width change needed for .category-column as grid handles it */
 
     .drop-zone {
-        min-height: 100px; /* Can be smaller in vertical layout */
-        max-height: 250px;  /* Limit height */
-        overflow-y: auto;   /* Enable vertical scroll if content exceeds max-height */
-        flex-wrap: wrap;    /* Keep wrap for narrow screens */
-        align-content: flex-start; /* Align wrapped lines to the top */
+        /* Can be smaller in vertical layout */
+        min-height: 100px;
+        /* Limit height */
+        max-height: 250px;
+        /* Enable vertical scroll if content exceeds max-height */
+        overflow-y: auto;
+        /* Keep wrap for narrow screens */
+        flex-wrap: wrap;
+        /* Align wrapped lines to the top */
+        align-content: flex-start;
     }
 
     .word-bank {
@@ -317,14 +360,15 @@ h1, h2 {
     }
 
     .word-item {
-         padding: 6px 10px;
-         font-size: 0.9em;
+        padding: 6px 10px;
+        font-size: 0.9em;
     }
 
     #check-button {
         padding: 10px 20px;
         font-size: 1em;
     }
+
     .button-controls button {
         padding: 10px 20px;
         font-size: 1em;
@@ -332,17 +376,21 @@ h1, h2 {
 }
 
 @media (max-width: 480px) {
-     h1 {
+    h1 {
         font-size: 1.3em;
     }
-     .game-container {
+
+    .game-container {
         padding: 10px;
-     }
-     .drop-zone {
-        max-height: 200px; /* Maybe even smaller on very small screens */
-     }
-     /* Adjust minimum column width for very small screens if needed */
-     /* Example:
+    }
+
+    .drop-zone {
+        /* Maybe even smaller on very small screens */
+        max-height: 200px;
+    }
+
+    /* Adjust minimum column width for very small screens if needed */
+    /* Example:
      .columns-container {
          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
      }
@@ -352,24 +400,30 @@ h1, h2 {
 
 /* --- Optional: Themed Scrollbar Styling (for Webkit browsers like Chrome/Safari/Edge) --- */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+    width: 8px;
+    height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: var(--clr-scrollbar-track);
-  border-radius: 4px;
+    background: var(--clr-scrollbar-track);
+    border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb {
-  background-color: var(--clr-scrollbar-thumb);
-  border-radius: 4px;
-  border: 2px solid var(--clr-scrollbar-track); /* Creates padding around thumb */
+    background-color: var(--clr-scrollbar-thumb);
+    border-radius: 4px;
+    /* Creates padding around thumb */
+    border: 2px solid var(--clr-scrollbar-track);
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--clr-scrollbar-thumb-hover);
+    background-color: var(--clr-scrollbar-thumb-hover);
 }
+
 /* Add styles for Firefox if needed (scrollbar-width, scrollbar-color) */
 /* Note: Firefox scrollbar styling is less customizable */
-* { /* Apply basic FF scrollbar colors */
+* {
+    /* Apply basic FF scrollbar colors */
     scrollbar-width: thin;
     scrollbar-color: var(--clr-scrollbar-thumb) var(--clr-scrollbar-track);
 }

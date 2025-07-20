@@ -1,371 +1,376 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Timeline Builder</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<style>
-body {
-font-family: Arial, sans-serif;
-color: white;
-background-color: #1e1e1e;
-margin: 20px;
-}
+    <meta charset="UTF-8">
+    <title>Timeline Builder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            background-color: #1e1e1e;
+            margin: 20px;
+        }
 
-.title {
-font-size: 24px;
-margin-bottom: 20px;
-text-align: center;
-}
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-.container {
-display: flex;
-flex-wrap: wrap;
-gap: 10px;
-min-height: 60px;
-padding: 15px;
-border: 2px solid #555;
-border-radius: 8px;
-background-color: #2a2a2a;
-margin: 10px 0 30px 0;
-}
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 60px;
+            padding: 15px;
+            border: 2px solid #555;
+            border-radius: 8px;
+            background-color: #2a2a2a;
+            margin: 10px 0 30px 0;
+        }
 
-.timeline-section {
-margin-bottom: 30px;
-}
+        .timeline-section {
+            margin-bottom: 30px;
+        }
 
-.timeline-section h3 {
-margin-bottom: 15px;
-font-size: 18px;
-}
+        .timeline-section h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
 
-.word {
-padding: 10px 15px;
-background: #333;
-border: 1px solid #ccc;
-border-radius: 5px;
-cursor: move;
-user-select: none;
-touch-action: manipulation;
-transition: all 0.2s ease;
-font-weight: bold;
-}
+        .word {
+            padding: 10px 15px;
+            background: #333;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: move;
+            user-select: none;
+            touch-action: manipulation;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
 
-.word:hover {
-background: #444;
-}
+        .word:hover {
+            background: #444;
+        }
 
-.word:active {
-background: #555;
-transform: scale(0.95);
-}
+        .word:active {
+            background: #555;
+            transform: scale(0.95);
+        }
 
-.inactive {
-opacity: 0.5;
-pointer-events: none;
-}
+        .inactive {
+            opacity: 0.5;
+            pointer-events: none;
+        }
 
-.hidden {
-display: none;
-}
+        .hidden {
+            display: none;
+        }
 
-.drag-over {
-border: 2px solid #4CAF50;
-background-color: #1a3a1a;
-}
+        .drag-over {
+            border: 2px solid #4CAF50;
+            background-color: #1a3a1a;
+        }
 
-/* Mobile-friendly styles */
-@media (max-width: 768px) {
-body {
-margin: 10px;
-}
+        /* Mobile-friendly styles */
+        @media (max-width: 768px) {
+            body {
+                margin: 10px;
+            }
 
-.word {
-padding: 12px 16px;
-font-size: 16px;
-}
+            .word {
+                padding: 12px 16px;
+                font-size: 16px;
+            }
 
-.container {
-padding: 12px;
-}
-}
-</style>
+            .container {
+                padding: 12px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<div class="title">{{Title}}</div>
-<div class="timeline-section">
-<h3>Sequence</h3>
-<div id="constructed" class="container" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)"></div>
-</div>
-<div class="timeline-section">
-<h3>Elements</h3>
-<div id="word-bank" class="container" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)"></div>
-</div>
-<!-- Hidden inputs -->
-<div id="raw-events" class="hidden">{{Events}}</div>
-<div id="raw-extra" class="hidden">{{Extra}}</div>
-<div id="explanation" class="hidden">{{Explanation}}</div>
-<script>
-(()=>{ // Start of IIFE
-    let draggedElement = null;
-    let touchStartTime = 0;
-    let dragCounter = 0;
+    <div class="title">{{Title}}</div>
+    <div class="timeline-section">
+        <h3>Sequence</h3>
+        <div id="constructed" class="container" ondrop="drop(event)" ondragover="allowDrop(event)"
+            ondragenter="dragEnter(event)" ondragleave="dragLeave(event)"></div>
+    </div>
+    <div class="timeline-section">
+        <h3>Elements</h3>
+        <div id="word-bank" class="container" ondrop="drop(event)" ondragover="allowDrop(event)"
+            ondragenter="dragEnter(event)" ondragleave="dragLeave(event)"></div>
+    </div>
+    <!-- Hidden inputs -->
+    <div id="raw-events" class="hidden">{{Events}}</div>
+    <div id="raw-extra" class="hidden">{{Extra}}</div>
+    <div id="explanation" class="hidden">{{Explanation}}</div>
+    <script>
+        (() => { // Start of IIFE
+            let draggedElement = null;
+            let touchStartTime = 0;
+            let dragCounter = 0;
 
-    // Helper function to save current state of constructed timeline
-    function saveTimelineState() {
-        // Changed: Store as JSON stringified array
-        localStorage.setItem("sentenceProgress", JSON.stringify(getSentence()));
-    }
+            // Helper function to save current state of constructed timeline
+            function saveTimelineState() {
+                // Changed: Store as JSON stringified array
+                localStorage.setItem("sentenceProgress", JSON.stringify(getSentence()));
+            }
 
-    function allowDrop(ev) {
-        ev.preventDefault();
-    }
-    window.allowDrop = allowDrop; // <--- EXPOSE TO GLOBAL SCOPE
+            function allowDrop(ev) {
+                ev.preventDefault();
+            }
+            window.allowDrop = allowDrop; // <--- EXPOSE TO GLOBAL SCOPE
 
-    function dragEnter(ev) {
-        ev.preventDefault();
-        dragCounter++;
-        if (ev.currentTarget.classList.contains('container')) {
-            ev.currentTarget.classList.add('drag-over');
-        }
-    }
-    window.dragEnter = dragEnter; // <--- EXPOSE TO GLOBAL SCOPE
-
-    function dragLeave(ev) {
-        ev.preventDefault();
-        dragCounter--;
-        // Only remove drag-over class if no more active drags over the element
-        if (dragCounter === 0 && ev.currentTarget.classList.contains('container')) {
-            ev.currentTarget.classList.remove('drag-over');
-        }
-    }
-    window.dragLeave = dragLeave; // <--- EXPOSE TO GLOBAL SCOPE
-
-    function drag(ev) {
-        draggedElement = ev.target;
-        ev.dataTransfer.setData("text", ev.target.id);
-    }
-    // 'drag' is used by addEventListener, so it doesn't strictly need to be global here.
-
-    function drop(ev) {
-        ev.preventDefault();
-        dragCounter = 0; // Reset drag counter on drop
-        ev.currentTarget.classList.remove('drag-over');
-
-        const id = ev.dataTransfer.getData("text");
-        const draggedEl = document.getElementById(id);
-        const targetContainer = ev.currentTarget;
-
-        if (draggedEl && targetContainer.classList.contains('container')) {
-            const afterElement = getDragAfterElement(targetContainer, ev.clientX);
-
-            if (draggedEl.parentElement === targetContainer) {
-                // Reordering within the same container
-                if (afterElement == null) {
-                    targetContainer.appendChild(draggedEl);
-                } else {
-                    targetContainer.insertBefore(draggedEl, afterElement);
-                }
-            } else {
-                // Moving between containers
-                if (targetContainer.id === 'constructed') {
-                    moveToConstructed(draggedEl, afterElement);
-                } else if (targetContainer.id === 'word-bank') {
-                    returnToBank(draggedEl);
+            function dragEnter(ev) {
+                ev.preventDefault();
+                dragCounter++;
+                if (ev.currentTarget.classList.contains('container')) {
+                    ev.currentTarget.classList.add('drag-over');
                 }
             }
-            saveTimelineState(); // Save after any successful drag-drop
-        }
-    }
-    window.drop = drop; // <--- EXPOSE TO GLOBAL SCOPE
+            window.dragEnter = dragEnter; // <--- EXPOSE TO GLOBAL SCOPE
 
-    function getDragAfterElement(container, x) {
-        // Filter for elements that are NOT the dragged element itself
-        // and are visible/active words (not inactive)
-        const draggableElements = [...container.querySelectorAll('.word:not([id="' + draggedElement.id + '"]):not(.inactive)')];
+            function dragLeave(ev) {
+                ev.preventDefault();
+                dragCounter--;
+                // Only remove drag-over class if no more active drags over the element
+                if (dragCounter === 0 && ev.currentTarget.classList.contains('container')) {
+                    ev.currentTarget.classList.remove('drag-over');
+                }
+            }
+            window.dragLeave = dragLeave; // <--- EXPOSE TO GLOBAL SCOPE
 
-        // Find the element to insert before
-        const element = draggableElements.find(child => {
-            const box = child.getBoundingClientRect();
-            // Check if the drag X position is to the left of the child's horizontal midpoint
-            return x < (box.left + box.width / 2);
-        });
-        return element || null; // If no element found, append to end
-    }
+            function drag(ev) {
+                draggedElement = ev.target;
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
+            // 'drag' is used by addEventListener, so it doesn't strictly need to be global here.
 
-    function moveToConstructed(originalElement, afterElement = null) {
-        if (originalElement.parentElement.id === 'word-bank') {
-            const clone = originalElement.cloneNode(true);
-            // Create a unique ID for the cloned element in constructed
-            clone.id = "clone-" + originalElement.id + "-" + Date.now();
-            clone.draggable = true;
-            clone.classList.remove('inactive'); // Ensure cloned item is active
-            clone.addEventListener("dragstart", drag);
-            clone.addEventListener("click", handleConstructedClick);
-            clone.addEventListener("touchstart", handleTouchStart);
-            clone.addEventListener("touchend", handleTouchEnd);
+            function drop(ev) {
+                ev.preventDefault();
+                dragCounter = 0; // Reset drag counter on drop
+                ev.currentTarget.classList.remove('drag-over');
 
+                const id = ev.dataTransfer.getData("text");
+                const draggedEl = document.getElementById(id);
+                const targetContainer = ev.currentTarget;
+
+                if (draggedEl && targetContainer.classList.contains('container')) {
+                    const afterElement = getDragAfterElement(targetContainer, ev.clientX);
+
+                    if (draggedEl.parentElement === targetContainer) {
+                        // Reordering within the same container
+                        if (afterElement == null) {
+                            targetContainer.appendChild(draggedEl);
+                        } else {
+                            targetContainer.insertBefore(draggedEl, afterElement);
+                        }
+                    } else {
+                        // Moving between containers
+                        if (targetContainer.id === 'constructed') {
+                            moveToConstructed(draggedEl, afterElement);
+                        } else if (targetContainer.id === 'word-bank') {
+                            returnToBank(draggedEl);
+                        }
+                    }
+                    saveTimelineState(); // Save after any successful drag-drop
+                }
+            }
+            window.drop = drop; // <--- EXPOSE TO GLOBAL SCOPE
+
+            function getDragAfterElement(container, x) {
+                // Filter for elements that are NOT the dragged element itself
+                // and are visible/active words (not inactive)
+                const draggableElements = [...container.querySelectorAll('.word:not([id="' + draggedElement.id + '"]):not(.inactive)')];
+
+                // Find the element to insert before
+                const element = draggableElements.find(child => {
+                    const box = child.getBoundingClientRect();
+                    // Check if the drag X position is to the left of the child's horizontal midpoint
+                    return x < (box.left + box.width / 2);
+                });
+                return element || null; // If no element found, append to end
+            }
+
+            function moveToConstructed(originalElement, afterElement = null) {
+                if (originalElement.parentElement.id === 'word-bank') {
+                    const clone = originalElement.cloneNode(true);
+                    // Create a unique ID for the cloned element in constructed
+                    clone.id = "clone-" + originalElement.id + "-" + Date.now();
+                    clone.draggable = true;
+                    clone.classList.remove('inactive'); // Ensure cloned item is active
+                    clone.addEventListener("dragstart", drag);
+                    clone.addEventListener("click", handleConstructedClick);
+                    clone.addEventListener("touchstart", handleTouchStart);
+                    clone.addEventListener("touchend", handleTouchEnd);
+
+                    const constructedContainer = document.getElementById("constructed");
+                    if (afterElement) {
+                        constructedContainer.insertBefore(clone, afterElement);
+                    } else {
+                        constructedContainer.appendChild(clone);
+                    }
+                    originalElement.classList.add("inactive"); // Deactivate original in word-bank
+                } else if (originalElement.parentElement.id === 'constructed') {
+                    // This case handles a word already in 'constructed' being reordered by drag
+                    // or a tap move from word-bank to constructed (though tap typically appends)
+                    // Note: Drag-reordering within 'constructed' is primarily handled directly in the 'drop' function.
+                    const constructedContainer = document.getElementById("constructed");
+                    if (afterElement) {
+                        constructedContainer.insertBefore(originalElement, afterElement);
+                    } else {
+                        constructedContainer.appendChild(originalElement);
+                    }
+                }
+                saveTimelineState(); // Save state after moving to constructed
+            }
+
+            function returnToBank(constructedElement) {
+                if (constructedElement.parentElement.id === 'constructed') {
+                    // Find the original element in word-bank and reactivate it
+                    const originalText = constructedElement.textContent;
+                    const originalElements = document.querySelectorAll('#word-bank .word');
+
+                    for (let el of originalElements) {
+                        if (el.textContent === originalText && el.classList.contains('inactive')) {
+                            el.classList.remove('inactive');
+                            break;
+                        }
+                    }
+                    constructedElement.remove(); // Remove the cloned element from constructed
+                    saveTimelineState(); // Save state after returning to bank
+                }
+            }
+
+            function handleBankClick(ev) {
+                ev.preventDefault();
+                if (ev.target.classList.contains('word') && ev.target.parentElement.id === "word-bank" && !ev.target.classList.contains('inactive')) {
+                    moveToConstructed(ev.target); // Appends by default as afterElement is null
+                }
+            }
+
+            function handleConstructedClick(ev) {
+                ev.preventDefault();
+                if (ev.target.classList.contains('word') && ev.target.parentElement.id === "constructed") {
+                    returnToBank(ev.target);
+                }
+            }
+
+            function handleTouchStart(ev) {
+                touchStartTime = Date.now();
+            }
+
+            function handleTouchEnd(ev) {
+                const touchDuration = Date.now() - touchStartTime;
+
+                // If it's a quick tap (less than 200ms) and not a drag
+                if (touchDuration < 200) {
+                    ev.preventDefault();
+                    // Determine target based on where the touch ended (ev.target)
+                    if (ev.target.classList.contains('word') && ev.target.parentElement.id === "word-bank" && !ev.target.classList.contains('inactive')) {
+                        moveToConstructed(ev.target); // Appends by default
+                    } else if (ev.target.classList.contains('word') && ev.target.parentElement.id === "constructed") {
+                        returnToBank(ev.target);
+                    }
+                }
+            }
+
+            function parsePipedField(raw) {
+                return (raw.match(/\|([^|]+)\|/g) || []).map(e => e.replace(/\|/g, '').trim());
+            }
+
+            const correctOrder = parsePipedField(document.getElementById("raw-events").textContent);
+            const extras = parsePipedField(document.getElementById("raw-extra").textContent);
+            const allWords = shuffle([...correctOrder, ...extras]);
+
+            function shuffle(arr) {
+                const a = [...arr];
+                for (let i = a.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [a[i], a[j]] = [a[j], a[i]];
+                }
+                return a;
+            }
+
+            const wordBank = document.getElementById("word-bank");
             const constructedContainer = document.getElementById("constructed");
-            if (afterElement) {
-                constructedContainer.insertBefore(clone, afterElement);
-            } else {
-                constructedContainer.appendChild(clone);
-            }
-            originalElement.classList.add("inactive"); // Deactivate original in word-bank
-        } else if (originalElement.parentElement.id === 'constructed') {
-            // This case handles a word already in 'constructed' being reordered by drag
-            // or a tap move from word-bank to constructed (though tap typically appends)
-            // Note: Drag-reordering within 'constructed' is primarily handled directly in the 'drop' function.
-            const constructedContainer = document.getElementById("constructed");
-            if (afterElement) {
-                constructedContainer.insertBefore(originalElement, afterElement);
-            } else {
-                constructedContainer.appendChild(originalElement);
-            }
-        }
-        saveTimelineState(); // Save state after moving to constructed
-    }
 
-    function returnToBank(constructedElement) {
-        if (constructedElement.parentElement.id === 'constructed') {
-            // Find the original element in word-bank and reactivate it
-            const originalText = constructedElement.textContent;
-            const originalElements = document.querySelectorAll('#word-bank .word');
-
-            for (let el of originalElements) {
-                if (el.textContent === originalText && el.classList.contains('inactive')) {
-                    el.classList.remove('inactive');
-                    break;
-                }
-            }
-            constructedElement.remove(); // Remove the cloned element from constructed
-            saveTimelineState(); // Save state after returning to bank
-        }
-    }
-
-    function handleBankClick(ev) {
-        ev.preventDefault();
-        if (ev.target.classList.contains('word') && ev.target.parentElement.id === "word-bank" && !ev.target.classList.contains('inactive')) {
-            moveToConstructed(ev.target); // Appends by default as afterElement is null
-        }
-    }
-
-    function handleConstructedClick(ev) {
-        ev.preventDefault();
-        if (ev.target.classList.contains('word') && ev.target.parentElement.id === "constructed") {
-            returnToBank(ev.target);
-        }
-    }
-
-    function handleTouchStart(ev) {
-        touchStartTime = Date.now();
-    }
-
-    function handleTouchEnd(ev) {
-        const touchDuration = Date.now() - touchStartTime;
-
-        // If it's a quick tap (less than 200ms) and not a drag
-        if (touchDuration < 200) {
-            ev.preventDefault();
-            // Determine target based on where the touch ended (ev.target)
-            if (ev.target.classList.contains('word') && ev.target.parentElement.id === "word-bank" && !ev.target.classList.contains('inactive')) {
-                moveToConstructed(ev.target); // Appends by default
-            } else if (ev.target.classList.contains('word') && ev.target.parentElement.id === "constructed") {
-                returnToBank(ev.target);
-            }
-        }
-    }
-
-    function parsePipedField(raw) {
-        return (raw.match(/\|([^|]+)\|/g) || []).map(e => e.replace(/\|/g, '').trim());
-    }
-
-    const correctOrder = parsePipedField(document.getElementById("raw-events").textContent);
-    const extras = parsePipedField(document.getElementById("raw-extra").textContent);
-    const allWords = shuffle([...correctOrder, ...extras]);
-
-    function shuffle(arr) {
-        const a = [...arr];
-        for (let i = a.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
-    }
-
-    const wordBank = document.getElementById("word-bank");
-    const constructedContainer = document.getElementById("constructed");
-
-    // Populate the word bank first
-    allWords.forEach((word, index) => {
-        const div = document.createElement("div");
-        div.className = "word";
-        div.textContent = word;
-        div.id = "word-" + index; // Unique ID for each original word
-        div.draggable = true;
-        div.addEventListener("dragstart", drag);
-        div.addEventListener("click", handleBankClick);
-        div.addEventListener("touchstart", handleTouchStart);
-        div.addEventListener("touchend", handleTouchEnd);
-        wordBank.appendChild(div);
-    });
-
-    // Load progress from localStorage after populating word bank
-    const savedProgress = localStorage.getItem("sentenceProgress");
-    if (savedProgress) {
-        let savedItems;
-        try {
-            // Attempt to parse JSON. This handles the new array format.
-            savedItems = JSON.parse(savedProgress);
-            // If parsed successfully but it's not an array (e.g., old format stringified 'null'),
-            // or if it was just the old string format without proper JSON,
-            // fall back to old splitting logic.
-            if (!Array.isArray(savedItems)) {
-                console.warn("localStorage 'sentenceProgress' was not an array after JSON parse, attempting old format parse.");
-                savedItems = String(savedProgress).split("|||");
-            }
-        } catch (e) {
-            // If JSON parsing fails (e.g., it's the old '|||' string format that isn't valid JSON), parse it the old way.
-            console.warn("Failed to parse 'sentenceProgress' as JSON, falling back to old format.", e);
-            savedItems = savedProgress.split("|||");
-        }
-
-        savedItems.forEach(savedText => {
-            // Ensure savedText is a string before trimming/using
-            if (typeof savedText !== 'string' || savedText.trim() === "") return;
-
-            // Find the original word in the bank that is not yet 'inactive'
-            const originalWordDiv = Array.from(wordBank.children).find(el => {
-                return el.textContent === savedText && el.classList.contains('inactive') === false;
+            // Populate the word bank first
+            allWords.forEach((word, index) => {
+                const div = document.createElement("div");
+                div.className = "word";
+                div.textContent = word;
+                div.id = "word-" + index; // Unique ID for each original word
+                div.draggable = true;
+                div.addEventListener("dragstart", drag);
+                div.addEventListener("click", handleBankClick);
+                div.addEventListener("touchstart", handleTouchStart);
+                div.addEventListener("touchend", handleTouchEnd);
+                wordBank.appendChild(div);
             });
 
-            if (originalWordDiv) {
-                // Move it to constructed. This will clone it and mark the original as inactive.
-                moveToConstructed(originalWordDiv);
+            // Load progress from localStorage after populating word bank
+            const savedProgress = localStorage.getItem("sentenceProgress");
+            if (savedProgress) {
+                let savedItems;
+                try {
+                    // Attempt to parse JSON. This handles the new array format.
+                    savedItems = JSON.parse(savedProgress);
+                    // If parsed successfully but it's not an array (e.g., old format stringified 'null'),
+                    // or if it was just the old string format without proper JSON,
+                    // fall back to old splitting logic.
+                    if (!Array.isArray(savedItems)) {
+                        console.warn("localStorage 'sentenceProgress' was not an array after JSON parse, attempting old format parse.");
+                        savedItems = String(savedProgress).split("|||");
+                    }
+                } catch (e) {
+                    // If JSON parsing fails (e.g., it's the old '|||' string format that isn't valid JSON), parse it the old way.
+                    console.warn("Failed to parse 'sentenceProgress' as JSON, falling back to old format.", e);
+                    savedItems = savedProgress.split("|||");
+                }
+
+                savedItems.forEach(savedText => {
+                    // Ensure savedText is a string before trimming/using
+                    if (typeof savedText !== 'string' || savedText.trim() === "") return;
+
+                    // Find the original word in the bank that is not yet 'inactive'
+                    const originalWordDiv = Array.from(wordBank.children).find(el => {
+                        return el.textContent === savedText && el.classList.contains('inactive') === false;
+                    });
+
+                    if (originalWordDiv) {
+                        // Move it to constructed. This will clone it and mark the original as inactive.
+                        moveToConstructed(originalWordDiv);
+                    }
+                });
             }
-        });
-    }
 
-    function getSentence() {
-        // Changed: Return an array of text contents, not a joined string.
-        return Array.from(document.getElementById("constructed").children)
-            .map(e => e.textContent);
-    }
+            function getSentence() {
+                // Changed: Return an array of text contents, not a joined string.
+                return Array.from(document.getElementById("constructed").children)
+                    .map(e => e.textContent);
+            }
 
-    // Changed: Store correctOrder as JSON stringified array
-    localStorage.setItem("correctOrder", JSON.stringify(correctOrder));
-    localStorage.setItem("rawExtras", document.getElementById("raw-extra").textContent);
-    localStorage.setItem("explanation", document.getElementById("explanation").textContent);
+            // Changed: Store correctOrder as JSON stringified array
+            localStorage.setItem("correctOrder", JSON.stringify(correctOrder));
+            localStorage.setItem("rawExtras", document.getElementById("raw-extra").textContent);
+            localStorage.setItem("explanation", document.getElementById("explanation").textContent);
 
-    window.onbeforeunload = () => {
-        saveTimelineState();
-    };
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            saveTimelineState();
-        }
-    });
-})(); // End of IIFE
-</script>
+            window.onbeforeunload = () => {
+                saveTimelineState();
+            };
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    saveTimelineState();
+                }
+            });
+        })(); // End of IIFE
+    </script>
 </body>
+
 </html>

@@ -148,32 +148,32 @@
         this.renderGame();
         this.setupInitialState();
         await this.checkVersion();
-        if(this.isBack) {
+        if (this.isBack) {
           let explanations = document.getElementById("explanationsList").innerHTML.split("|").filter(exp => exp != "")
-          let indexes = this.shuffledFirstList.map(element => this.firstList.findIndex(ele=> ele==element))
+          let indexes = this.shuffledFirstList.map(element => this.firstList.findIndex(ele => ele == element))
           let orderedExplanations = []
-          indexes.forEach(index=> orderedExplanations.push(explanations[index]))
+          indexes.forEach(index => orderedExplanations.push(explanations[index]))
           orderedExplanations.length = explanations.length
           let orderedList = this.renderOrderedList(orderedExplanations);
           this.elements.explanations.appendChild(orderedList)
         }
       }
-    renderOrderedList(items) {
-    if (!Array.isArray(items)) {
-        console.error("Input must be an array of strings.");
-        return;
-    }
-    
-    const ol = document.createElement("ol");
-    
-    items.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        ol.appendChild(li);
-    });
-    
-    return ol;
-}
+      renderOrderedList(items) {
+        if (!Array.isArray(items)) {
+          console.error("Input must be an array of strings.");
+          return;
+        }
+
+        const ol = document.createElement("ol");
+
+        items.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          ol.appendChild(li);
+        });
+
+        return ol;
+      }
 
       renderGame() {
         this.elements.wordList.style['grid-template-rows'] =
@@ -339,10 +339,10 @@
       // Utility methods
       addExtraWords(keys, values) {
         let extraWords = values.slice(keys.length);
-	    values.length = keys.length
-		console.log({values}) // 7 items
-		console.log({keys}) // 5 items
-		console.log({extraWords}) // empty
+        values.length = keys.length
+        console.log({ values }) // 7 items
+        console.log({ keys }) // 5 items
+        console.log({ extraWords }) // empty
 
         for (let i = 0; i < 2; i++) {
           const extraWordIndex = Math.floor(Math.random() * extraWords.length);

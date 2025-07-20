@@ -1,154 +1,154 @@
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0;
-      background-color: #f0f0f0;
-      font-size: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background-color: #f0f0f0;
+  font-size: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
 
 
-    img {
-      height: 100%;
-      max-height: 240px;
-      max-width: 90%;
-      object-fit: cover;
-    }
+img {
+  height: 100%;
+  max-height: 240px;
+  max-width: 90%;
+  object-fit: cover;
+}
 
-    .game-container {
-      background-color: white;
-      color: black;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      min-width: fit-content;
-      max-height: fit-content;
-      width: 80%;
-      max-width: min(90vw, 1024px);
-      margin: auto;
-      margin-top: 5px;
-      margin-bottom: 5px;
-    }
+.game-container {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  min-width: fit-content;
+  max-height: fit-content;
+  width: 80%;
+  max-width: min(90vw, 1024px);
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 
-    .word-lists {
-      display: grid;
-      grid-template-columns: 1fr, 1fr;
-      margin-bottom: 20px;
-      justify-items: center;
-      grid-auto-flow: dense;
-      align-items: center;
-      column-gap: 4px;
-    }
+.word-lists {
+  display: grid;
+  grid-template-columns: 1fr, 1fr;
+  margin-bottom: 20px;
+  justify-items: center;
+  grid-auto-flow: dense;
+  align-items: center;
+  column-gap: 4px;
+}
 
-    .list {
-      margin: 0 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 20px;
-      gap: 5px;
-    }
+.list {
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 20px;
+  gap: 5px;
+}
 
-    .word {
-      grid-column: 1;
-      padding: 10px;
-      height: fit-content;
-      font-size: clamp(5px, 3vw, 24px);
-    }
+.word {
+  grid-column: 1;
+  padding: 10px;
+  height: fit-content;
+  font-size: clamp(5px, 3vw, 24px);
+}
 
-    .match-slot {
-      grid-column: 2;
-      margin: 5px 0;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-      padding-left: 15px;
-      padding-right: 15px;
-      width: 90%;
-      text-align: center;
-      min-height: fit-content;
-      font-size: clamp(5px, 3vw, 24px);
-      min-height: 20px;
-      border: 1px dashed #ccc;
-    }
+.match-slot {
+  grid-column: 2;
+  margin: 5px 0;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 90%;
+  text-align: center;
+  min-height: fit-content;
+  font-size: clamp(5px, 3vw, 24px);
+  min-height: 20px;
+  border: 1px dashed #ccc;
+}
 
-    #horizontalWords {
-      width: min(33vw, 500px);
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+#horizontalWords {
+  width: min(33vw, 500px);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
-    .horizontal-word {
-      display: inline-block;
-      margin: 5px 5px;
-      padding: 5px;
-      cursor: pointer;
-      background-color: #e0e0e0;
-      border-radius: 3px;
-      font-size: 2vw;
-    }
+.horizontal-word {
+  display: inline-block;
+  margin: 5px 5px;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  font-size: 2vw;
+}
 
-    .matched-word {
-      background-color: #d4edda;
-    }
+.matched-word {
+  background-color: #d4edda;
+}
 
-    .checkButton {
-      display: block;
-      margin: 20px auto 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-
-    .nightMode .checkButton:hover {
-      color: white;
-    }
-
-    .checkButton:hover {
-      color: black
-    }
-
-    #result {
-      text-align: center;
-      margin-top: 20px;
-      font-weight: bold;
-      min-height: 1.2em;
-      font-size: clamp(5px, 3vw, 24px);
-    }
+.checkButton {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
 
-    #secondList {
-      text-align: center;
-    }
+.nightMode .checkButton:hover {
+  color: white;
+}
 
-    .match-slot:hover {
-      background-color: #f0f0f0;
-    }
+.checkButton:hover {
+  color: black
+}
+
+#result {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  min-height: 1.2em;
+  font-size: clamp(5px, 3vw, 24px);
+}
 
 
-    .warning {
-      display: none;
-      border-radius: 16px;
-      border: black dotted;
-      max-width: 90%;
-      padding: 10px;
-    }
+#secondList {
+  text-align: center;
+}
 
-    .nightMode .warning {
-      border: white dotted;
-    }
+.match-slot:hover {
+  background-color: #f0f0f0;
+}
 
-    .close {
-      margin-left: 90%;
-    }
+
+.warning {
+  display: none;
+  border-radius: 16px;
+  border: black dotted;
+  max-width: 90%;
+  padding: 10px;
+}
+
+.nightMode .warning {
+  border: white dotted;
+}
+
+.close {
+  margin-left: 90%;
+}

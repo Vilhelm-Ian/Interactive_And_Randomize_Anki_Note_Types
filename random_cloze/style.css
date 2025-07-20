@@ -83,83 +83,83 @@
   --mark-color: rgba(228, 147, 32, 0.2);
   --callout-base: var(--ctp-yellow);
   --ctp-rosewater: 222,
-  	149,
-  	132;
+    149,
+    132;
   --ctp-flamingo: 221,
-  	120,
-  	120;
+    120,
+    120;
   --ctp-pink: 236,
-  	131,
-  	208;
+    131,
+    208;
   --ctp-mauve: 136,
-  	57,
-  	239;
+    57,
+    239;
   --ctp-red: 210,
-  	15,
-  	57;
+    15,
+    57;
   --ctp-maroon: 230,
-  	69,
-  	83;
+    69,
+    83;
   --ctp-peach: 254,
-  	100,
-  	11;
+    100,
+    11;
   --ctp-yellow: 228,
-  	147,
-  	32;
+    147,
+    32;
   --ctp-green: 64,
-  	160,
-  	43;
+    160,
+    43;
   --ctp-teal: 23,
-  	146,
-  	153;
+    146,
+    153;
   --ctp-sky: 4,
-  	165,
-  	229;
+    165,
+    229;
   --ctp-sapphire: 32,
-  	159,
-  	181;
+    159,
+    181;
   --ctp-blue: 42,
-  	110,
-  	245;
+    110,
+    245;
   --ctp-lavender: 114,
-  	135,
-  	253;
+    135,
+    253;
   --ctp-text: 76,
-  	79,
-  	105;
+    79,
+    105;
   --ctp-subtext1: 92,
-  	95,
-  	119;
+    95,
+    119;
   --ctp-subtext0: 108,
-  	111,
-  	133;
+    111,
+    133;
   --ctp-overlay2: 124,
-  	127,
-  	147;
+    127,
+    147;
   --ctp-overlay1: 140,
-  	143,
-  	161;
+    143,
+    161;
   --ctp-overlay0: 156,
-  	160,
-  	176;
+    160,
+    176;
   --ctp-surface2: 172,
-  	176,
-  	190;
+    176,
+    190;
   --ctp-surface1: 188,
-  	192,
-  	204;
+    192,
+    204;
   --ctp-surface0: 204,
-  	208,
-  	218;
+    208,
+    218;
   --ctp-base: 239,
-  	241,
-  	245;
+    241,
+    245;
   --ctp-mantle: 230,
-  	233,
-  	239;
+    233,
+    239;
   --ctp-crust: 220,
-  	224,
-  	232;
+    224,
+    232;
 }
 
 .nightMode.card {
@@ -212,83 +212,83 @@
   --mark-color: rgba(249, 226, 175, 0.2);
   --callout-base: var(--ctp-yellow);
   --ctp-rosewater: 245,
-  	224,
-  	220;
+    224,
+    220;
   --ctp-flamingo: 242,
-  	205,
-  	205;
+    205,
+    205;
   --ctp-pink: 245,
-  	194,
-  	231;
+    194,
+    231;
   --ctp-mauve: 203,
-  	166,
-  	247;
+    166,
+    247;
   --ctp-red: 243,
-  	139,
-  	168;
+    139,
+    168;
   --ctp-maroon: 235,
-  	160,
-  	172;
+    160,
+    172;
   --ctp-peach: 250,
-  	179,
-  	135;
+    179,
+    135;
   --ctp-yellow: 249,
-  	226,
-  	175;
+    226,
+    175;
   --ctp-green: 166,
-  	227,
-  	161;
+    227,
+    161;
   --ctp-teal: 148,
-  	226,
-  	213;
+    226,
+    213;
   --ctp-sky: 137,
-  	220,
-  	235;
+    220,
+    235;
   --ctp-sapphire: 116,
-  	199,
-  	236;
+    199,
+    236;
   --ctp-blue: 135,
-  	176,
-  	249;
+    176,
+    249;
   --ctp-lavender: 180,
-  	190,
-  	254;
+    190,
+    254;
   --ctp-text: 255,
-  	255,
-  	255;
+    255,
+    255;
   --ctp-subtext1: 210,
-  	210,
-  	210;
+    210,
+    210;
   --ctp-subtext0: 189,
-  	189,
-  	189;
+    189,
+    189;
   --ctp-overlay2: 168,
-  	168,
-  	168;
+    168,
+    168;
   --ctp-overlay1: 147,
-  	147,
-  	147;
+    147,
+    147;
   --ctp-overlay0: 126,
-  	126,
-  	126;
+    126,
+    126;
   --ctp-surface2: 105,
-  	105,
-  	105;
+    105,
+    105;
   --ctp-surface1: 84,
-  	84,
-  	84;
+    84,
+    84;
   --ctp-surface0: 63,
-  	63,
-  	63;
+    63,
+    63;
   --ctp-base: 42,
-  	42,
-  	42;
+    42,
+    42;
   --ctp-mantle: 21,
-  	21,
-  	21;
+    21,
+    21;
   --ctp-crust: 0,
-  	0,
-  	0;
+    0,
+    0;
 }
 
 /*
@@ -603,7 +603,7 @@ pre {
   font-weight: bold;
 }
 
-:is(h1, h2, h3, h4, h5, h6) + :is(ul, ol) {
+:is(h1, h2, h3, h4, h5, h6)+ :is(ul, ol) {
   margin-block-start: 5px;
 }
 
@@ -682,10 +682,12 @@ input::selection {
 .center-text {
   text-align: center;
 }
+
 .center-text ul,
 .center-text ol {
   padding-inline-start: 0;
 }
+
 .center-text ul li,
 .center-text ol li {
   width: fit-content;
@@ -695,29 +697,36 @@ input::selection {
 .shift-right {
   padding-left: 20px;
 }
+
 .shift-right :is(ul, ol) {
   padding-inline-start: 15px;
 }
+
 .shift-right :is(ul, ol):first-child {
   margin-block-start: 5px;
 }
+
 .shift-right .center-text {
   padding-left: 0;
 }
-.shift-right .center-text > :is(ul, ol) {
+
+.shift-right .center-text> :is(ul, ol) {
   padding-inline-start: 5px;
 }
-.shift-right .center-text > :is(ul, ol):first-child {
+
+.shift-right .center-text> :is(ul, ol):first-child {
   margin-block-start: 5px;
 }
 
 .center-text .shift-right {
   padding-left: 0;
 }
-.center-text .shift-right > :is(ul, ol) {
+
+.center-text .shift-right> :is(ul, ol) {
   padding-inline-start: 5px;
 }
-.center-text .shift-right > :is(ul, ol):first-child {
+
+.center-text .shift-right> :is(ul, ol):first-child {
   margin-block-start: 5px;
 }
 
@@ -726,11 +735,11 @@ input::selection {
 */
 
 .reportIconContainer {
-   display: flex;
-   justify-content: flex-end;
-   margin-top: auto;
-   margin-left: auto;
-   margin-right: 0.2em;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: 0.2em;
 }
 
 /*
@@ -779,9 +788,9 @@ html.mobile .prettify-hint.key {
 */
 
 .row {
- display: flex;
- flex-direction: row;
- justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 /*
@@ -817,7 +826,8 @@ button,
   background-color: var(--tag-bg);
 }
 
-button:active, button:hover,
+button:active,
+button:hover,
 .isMac button:active,
 .isMac button:hover {
   background: none;
@@ -862,8 +872,8 @@ img.zoomable-image:hover,
   opacity: 1;
 }
 
-img.zoomable-image + br,
-.zoomable-image img + br {
+img.zoomable-image+br,
+.zoomable-image img+br {
   display: none;
 }
 
@@ -890,7 +900,7 @@ html:not(.mobile) .zoomable-image img:active {
   font-weight: 400;
   font-style: normal;
 }
- 
+
 /*
 ----------------------------------------------- SELECT FONTS */
 
@@ -900,4 +910,4 @@ html:not(.mobile) .zoomable-image img:active {
 
 .mobile {
   --font-family: "Lexend";
-  }
+}

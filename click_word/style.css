@@ -1,121 +1,152 @@
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .game-container {
-            max-width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: 90%;
-            max-width: 600px;
-        }
-        h1 {
-            color: #58cc02;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        #sentence {
-            color: black;
-            font-size: 20px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .blank {
-            display: inline-block;
-            width: 120px;
-            height: 36px;
-            border: 2px solid #ddd;
-            border-radius: 18px;
-            margin: 0 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            line-height: 36px;
-            font-weight: bold;
-            color: #1cb0f6;
-        }
-        .blank:hover {
-            background-color: #f7f7f7;
-        }
-        #words {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 30px;
-        }
-        .word {
-            padding: 10px 20px;
-            background-color: #fff;
-            border: 2px solid #1cb0f6;
-            border-radius: 20px;
-            margin: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            color: #1cb0f6;
-        }
-        .word:hover {
-            background-color: #1cb0f6;
-            color: white;
-        }
-        #checkButton {
-            display: block;
-            margin: 30px auto 0;
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #58cc02;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        #checkButton:hover {
-            background-color: #47a501;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .correct {
-            background-color: #d7ffb8 !important;
-            border-color: #58cc02 !important;
-            color: #58cc02 !important;
-            animation: pulse 0.5s ease-in-out;
-        }
-        .incorrect {
-            background-color: #ffdfe0 !important;
-            border-color: #ff4b4b !important;
-            color: #ff4b4b !important;
-            animation: shake 0.5s ease-in-out;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-  .warning {
- display: none;
- border-radius: 16px;
- border: white dotted;
- max-width: 90%;
- padding: 10px;
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.game-container {
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+}
+
+h1 {
+    color: #58cc02;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#sentence {
+    color: black;
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.blank {
+    display: inline-block;
+    width: 120px;
+    height: 36px;
+    border: 2px solid #ddd;
+    border-radius: 18px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    line-height: 36px;
+    font-weight: bold;
+    color: #1cb0f6;
+}
+
+.blank:hover {
+    background-color: #f7f7f7;
+}
+
+#words {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.word {
+    padding: 10px 20px;
+    background-color: #fff;
+    border: 2px solid #1cb0f6;
+    border-radius: 20px;
+    margin: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    color: #1cb0f6;
+}
+
+.word:hover {
+    background-color: #1cb0f6;
+    color: white;
+}
+
+#checkButton {
+    display: block;
+    margin: 30px auto 0;
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #58cc02;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#checkButton:hover {
+    background-color: #47a501;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.correct {
+    background-color: #d7ffb8 !important;
+    border-color: #58cc02 !important;
+    color: #58cc02 !important;
+    animation: pulse 0.5s ease-in-out;
+}
+
+.incorrect {
+    background-color: #ffdfe0 !important;
+    border-color: #ff4b4b !important;
+    color: #ff4b4b !important;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+.warning {
+    display: none;
+    border-radius: 16px;
+    border: white dotted;
+    max-width: 90%;
+    padding: 10px;
 }
 
 .close {
-  margin-left: 90%;
+    margin-left: 90%;
 }
-    </style>
